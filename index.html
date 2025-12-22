@@ -15,6 +15,16 @@ c.prototype.K=function(){if(this.g!=null){for(var f=0;f<this.g.length;++f)m.h(th
 c.prototype.A=function(f,a){function d(){switch(e.h){case 1:f(e.i);break;case 2:a(e.i);break;default:throw Error("Unexpected state: "+e.h)}}var e=this;this.g==null?m.h(d):this.g.push(d);this.u=!0};c.resolve=h;c.reject=function(f){return new c(function(a,d){d(f)})};c.race=function(f){return new c(function(a,d){for(var e=t(f),k=e.next();!k.done;k=e.next())h(k.value).A(a,d)})};c.all=function(f){var a=t(f),d=a.next();return d.done?h([]):new c(function(e,k){function p(C){return function(D){n[C]=D;r--;r==0&&e(n)}}var n=[],r=0;do n.push(void 0),r++,h(d.value).A(p(n.length-1),k),d=a.next();while(!d.done)})};return c})();})();
 </script>
 
+   <link rel="manifest" href="manifest.json">
+
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+   <meta name="apple-mobile-web-app-title" content="Fortune Commercial City">
+    
+   <link rel="apple-touch-icon" href="IMG_1291.jpeg">
+    
+   <meta name="theme-color" content="##020293">
+    
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Fortune Commercial City Financing Calculator</title>
@@ -952,3 +962,4 @@ c.prototype.A=function(f,a){function d(){switch(e.h){case 1:f(e.i);break;case 2:
 </script>
 
 </body></html>
+
