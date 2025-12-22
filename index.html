@@ -1,0 +1,954 @@
+<html lang="en"><head>
+<script class="injected-ffc2e83d85">
+(function(){'use strict';function q(b){var c=0;return function(){return c<b.length?{done:!1,value:b[c++]}:{done:!0}}}function t(b){var c=typeof Symbol!=="undefined"&&Symbol.iterator&&b[Symbol.iterator];if(c)return c.call(b);if(typeof b.length=="number")return{next:q(b)};throw Error(String(b)+" is not an iterable or ArrayLike")}var u=typeof Object.defineProperties=="function"?Object.defineProperty:function(b,c,g){if(b==Array.prototype||b==Object.prototype)return b;b[c]=g.value;return b};
+function v(b){b=["object"==typeof globalThis&&globalThis,b,"object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global];for(var c=0;c<b.length;++c){var g=b[c];if(g&&g.Math==Math)return g}throw Error("Cannot find global object")}var w=v(this);function x(b,c){if(c)a:{var g=w;b=b.split(".");for(var h=0;h<b.length-1;h++){var l=b[h];if(!(l in g))break a;g=g[l]}b=b[b.length-1];h=g[b];c=c(h);c!=h&&c!=null&&u(g,b,{configurable:!0,writable:!0,value:c})}
+}
+function y(){this.j=!1;this.g=null;this.u=void 0;this.h=1;this.v=this.l=0;this.i=null}function z(b){if(b.j)throw new TypeError("Generator is already running");b.j=!0}y.prototype.o=function(b){this.u=b};function A(b,c){b.i={I:c,J:!0};b.h=b.l||b.v}y.prototype.return=function(b){this.i={return:b};this.h=this.v};function B(b){this.g=new y;this.h=b}function E(b,c){z(b.g);var g=b.g.g;if(g)return F(b,"return" in g?g["return"]:function(h){return{value:h,done:!0}},c,b.g.return);b.g.return(c);return G(b)}
+function F(b,c,g,h){try{var l=c.call(b.g.g,g);if(!(l instanceof Object))throw new TypeError("Iterator result "+l+" is not an object");if(!l.done)return b.g.j=!1,l;var m=l.value}catch(f){return b.g.g=null,A(b.g,f),G(b)}b.g.g=null;h.call(b.g,m);return G(b)}function G(b){for(;b.g.h;)try{var c=b.h(b.g);if(c)return b.g.j=!1,{value:c.value,done:!1}}catch(g){b.g.u=void 0,A(b.g,g)}b.g.j=!1;if(b.g.i){c=b.g.i;b.g.i=null;if(c.J)throw c.I;return{value:c.return,done:!0}}return{value:void 0,done:!0}}
+function H(b){this.next=function(c){z(b.g);b.g.g?c=F(b,b.g.g.next,c,b.g.o):(b.g.o(c),c=G(b));return c};this.throw=function(c){z(b.g);b.g.g?c=F(b,b.g.g["throw"],c,b.g.o):(A(b,g),G(b));return c};this.return=function(c){return E(b,c)};this[Symbol.iterator]=function(){return this}}function I(b){function c(h){return b.next(h)}function g(h){return b.throw(h)}return new Promise(function(h,l){function m(f){f.done?h(f.value):Promise.resolve(f.value).then(c,g).then(m,l)}m(b.next())})
+}
+x("Symbol",function(b){function c(m){if(this instanceof c)throw new TypeError("Symbol is not a constructor");return new g(h+(m||"")+"_"+l++,m)}function g(m,f){this.g=m;u(this,"description",{configurable:!0,writable:!0,value:f})}if(b)return b;g.prototype.toString=function(){return this.g};var h="jscomp_symbol_"+(Math.random()*1E9>>>0)+"_",l=0;return c});x("Symbol.iterator",function(b){if(b)return b;b=Symbol("Symbol.iterator");u(Array.prototype,b,{configurable:!0,writable:!0,value:function(){return J(q(this))}});return b});
+function J(b){b={next:b};b[Symbol.iterator]=function(){return this};return b}
+x("Promise",function(b){function c(f){this.h=0;this.i=void 0;this.g=[];this.u=!1;var a=this.j();try{f(a.resolve,a.reject)}catch(d){a.reject(d)}}function g(){this.g=null}function h(f){return f instanceof c?f:new c(function(a){a(f)})}if(b)return b;g.prototype.h=function(f){if(this.g==null){this.g=[];var a=this;this.i(function(){a.l()})}this.g.push(f)};var l=w.setTimeout;g.prototype.i=function(f){l(f,0)};g.prototype.l=function(){for(;this.g&&this.g.length;){var f=this.g;this.g=[];for(var a=0;a<f.length;a++){f[a]=null;try{f[a]()}catch(e){this.j(e)}}}this.g=null};g.prototype.j=function(f){this.i(function(){throw f;})};c.prototype.j=function(){function f(e){return function(k){d||(d=!0,e.call(a,k))}}var a=this,d=!1;return{resolve:f(this.D),reject:f(this.l)}};
+c.prototype.D=function(f){if(f===this)this.l(new TypeError("A Promise cannot resolve to itself"));else if(f instanceof c)this.G(f);else{a:switch(typeof f){case "object":var a=f!=null;break a;case "function":a=!0;break;default:a=!1}a?this.C(f):this.o(f)}};c.prototype.C=function(f){var a=void 0;try{a=f.then}catch(d){this.l(d);return}typeof a=="function"?this.H(a,f):this.o(f)};c.prototype.l=function(f){this.v(2,f)};c.prototype.o=function(f){this.v(1,f)};c.prototype.v=function(f,a){if(this.h!=0)throw Error("Cannot settle("+f+", "+a+"): Promise already settled in state"+this.h);this.h=f;this.i=a;this.h===2&&this.F();this.K()};c.prototype.F=function(){var f=this;l(function(){if(f.B()){var a=w.console;typeof a!=="undefined"&&a.error(f.i)}},1)};c.prototype.B=function(){if(this.u)return!1;var f=w.CustomEvent,a=w.Event,d=w.dispatchEvent;if(typeof d==="undefined")return!0;typeof f=="function"?f=new f("unhandledrejection",{cancelable:!0}):typeof a=="function"?f=new a("unhandledrejection",{cancelable:!0}):(f=w.document.createEvent("CustomEvent"),f.initCustomEvent("unhandledrejection",!1,!0,f));f.promise=this;f.reason=this.i;return d(f)};
+c.prototype.K=function(){if(this.g!=null){for(var f=0;f<this.g.length;++f)m.h(this.g[f]);this.g=null}};var m=new g;c.prototype.G=function(f){var a=this.j();f.A(a.resolve,a.reject)};c.prototype.H=function(f,a){var d=this.j();try{f.call(a,d.resolve,d.reject)}catch(e){d.reject(e)}};c.prototype.then=function(f,a){function d(n,r){return typeof n=="function"?function(c){try{e(n(c))}catch(d){k(d)}}:r}var e,k,p=new c(function(n,r){e=n;k=r});this.A(d(f,e),d(a,k));return p};c.prototype.catch=function(f){return this.then(void 0,f)};
+c.prototype.A=function(f,a){function d(){switch(e.h){case 1:f(e.i);break;case 2:a(e.i);break;default:throw Error("Unexpected state: "+e.h)}}var e=this;this.g==null?m.h(d):this.g.push(d);this.u=!0};c.resolve=h;c.reject=function(f){return new c(function(a,d){d(f)})};c.race=function(f){return new c(function(a,d){for(var e=t(f),k=e.next();!k.done;k=e.next())h(k.value).A(a,d)})};c.all=function(f){var a=t(f),d=a.next();return d.done?h([]):new c(function(e,k){function p(C){return function(D){n[C]=D;r--;r==0&&e(n)}}var n=[],r=0;do n.push(void 0),r++,h(d.value).A(p(n.length-1),k),d=a.next();while(!d.done)})};return c})();})();
+</script>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Fortune Commercial City Financing Calculator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root { --primary-color: #3b82f6; }
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        
+        /* Input & Select Styling */
+        .input-group input:not([type="radio"]), .input-group select { transition: all 0.2s; padding: 0.75rem; }
+        .input-group input:focus, .input-group select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); }
+        
+        /* Toggle/Selector Styling */
+        .selector-label { 
+            transition: all 0.2s; 
+            border-color: #d1d5db; 
+            position: relative; 
+            cursor: pointer; 
+            user-select: none;
+        }
+        .selector-label:hover { background-color: #f9fafb; }
+        .selector-label.active { background-color: #eff6ff; border-color: #3b82f6; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .selector-label.active .material-symbols-outlined { color: #2563eb; font-variation-settings: 'FILL' 1; }
+        
+        /* Robust hidden radio class that ensures clickability */
+        .radio-hidden {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            cursor: pointer;
+        }
+
+        input:read-only { background-color: #f3f4f6; color: #6b7280; cursor: not-allowed; }
+        .sticky-header-table th { position: sticky; top: 0; z-index: 10; }
+
+        /* Export Container: Fixed positioning off-screen to ensure rendering context exists for html2canvas */
+        #exportContainer {
+            position: fixed;
+            left: -9999px; 
+            top: 0;
+            width: 1000px;
+            background-color: white;
+            z-index: 9999;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.top-0{top:0px}.z-10{z-index:10}.z-30{z-index:30}.z-50{z-index:50}.-mx-4{margin-left:-1rem;margin-right:-1rem}.mx-auto{margin-left:auto;margin-right:auto}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mr-1{margin-right:0.25rem}.mr-2{margin-right:0.5rem}.mr-3{margin-right:0.75rem}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-3{margin-top:0.75rem}.mt-6{margin-top:1.5rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.max-h-96{max-height:24rem}.min-h-screen{min-height:100vh}.w-1\/2{width:50%}.w-1\/3{width:33.333333%}.w-2\/3{width:66.666667%}.w-full{width:100%}.max-w-6xl{max-width:72rem}.max-w-md{max-width:28rem}.flex-1{flex:1 1 0%}.border-collapse{border-collapse:collapse}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.cursor-not-allowed{cursor:not-allowed}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-x-2 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.5rem * var(--tw-space-x-reverse));margin-left:calc(0.5rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-3 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.75rem * var(--tw-space-x-reverse));margin-left:calc(0.75rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.divide-y > :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(1px * var(--tw-divide-y-reverse))}.divide-gray-100 > :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(243 244 246 / var(--tw-divide-opacity, 1))}.divide-gray-200 > :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(229 231 235 / var(--tw-divide-opacity, 1))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:0.25rem}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-b-lg{border-bottom-right-radius:0.5rem;border-bottom-left-radius:0.5rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-l-4{border-left-width:4px}.border-t{border-top-width:1px}.border-t-8{border-top-width:8px}.border-amber-200{--tw-border-opacity:1;border-color:rgb(253 230 138 / var(--tw-border-opacity, 1))}.border-blue-200{--tw-border-opacity:1;border-color:rgb(191 219 254 / var(--tw-border-opacity, 1))}.border-blue-500{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235 / var(--tw-border-opacity, 1))}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219 / var(--tw-border-opacity, 1))}.border-gray-400{--tw-border-opacity:1;border-color:rgb(156 163 175 / var(--tw-border-opacity, 1))}.border-indigo-200{--tw-border-opacity:1;border-color:rgb(199 210 254 / var(--tw-border-opacity, 1))}.border-indigo-600{--tw-border-opacity:1;border-color:rgb(79 70 229 / var(--tw-border-opacity, 1))}.border-yellow-500{--tw-border-opacity:1;border-color:rgb(234 179 8 / var(--tw-border-opacity, 1))}.bg-amber-100{--tw-bg-opacity:1;background-color:rgb(254 243 199 / var(--tw-bg-opacity, 1))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255 / var(--tw-bg-opacity, 1))}.bg-blue-50\/50{background-color:rgb(239 246 255 / 0.5)}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.bg-gray-200{--tw-bg-opacity:1;background-color:rgb(229 231 235 / var(--tw-bg-opacity, 1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-gray-800{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity, 1))}.bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39 / var(--tw-bg-opacity, 1))}.bg-green-50\/50{background-color:rgb(240 253 244 / 0.5)}.bg-indigo-100{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.bg-indigo-50{--tw-bg-opacity:1;background-color:rgb(238 242 255 / var(--tw-bg-opacity, 1))}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-transparent{background-color:transparent}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-yellow-50{--tw-bg-opacity:1;background-color:rgb(254 252 232 / var(--tw-bg-opacity, 1))}.bg-opacity-75{--tw-bg-opacity:0.75}.p-1{padding:0.25rem}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pb-2{padding-bottom:0.5rem}.pb-4{padding-bottom:1rem}.pl-2{padding-left:0.5rem}.pl-3{padding-left:0.75rem}.pl-8{padding-left:2rem}.pr-2{padding-right:0.5rem}.pt-2{padding-top:0.5rem}.pt-4{padding-top:1rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.font-sans{font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-\[10px\]{font-size:10px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.tracking-wide{letter-spacing:0.025em}.text-amber-700{--tw-text-opacity:1;color:rgb(180 83 9 / var(--tw-text-opacity, 1))}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-blue-700{--tw-text-opacity:1;color:rgb(29 78 216 / var(--tw-text-opacity, 1))}.text-blue-800{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55 / var(--tw-text-opacity, 1))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity, 1))}.text-green-600{--tw-text-opacity:1;color:rgb(22 163 74 / var(--tw-text-opacity, 1))}.text-green-800{--tw-text-opacity:1;color:rgb(22 101 52 / var(--tw-text-opacity, 1))}.text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.text-indigo-700{--tw-text-opacity:1;color:rgb(67 56 202 / var(--tw-text-opacity, 1))}.text-indigo-800{--tw-text-opacity:1;color:rgb(55 48 163 / var(--tw-text-opacity, 1))}.text-indigo-900{--tw-text-opacity:1;color:rgb(49 46 129 / var(--tw-text-opacity, 1))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-yellow-600{--tw-text-opacity:1;color:rgb(202 138 4 / var(--tw-text-opacity, 1))}.text-yellow-700{--tw-text-opacity:1;color:rgb(161 98 7 / var(--tw-text-opacity, 1))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.opacity-50{opacity:0.5}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-gray-100:hover{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.hover\:bg-gray-300:hover{--tw-bg-opacity:1;background-color:rgb(209 213 219 / var(--tw-bg-opacity, 1))}.hover\:bg-gray-50:hover{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-700:hover{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}@media (min-width: 640px){.sm\:table-cell{display:table-cell}}@media (min-width: 768px){.md\:mx-0{margin-left:0px;margin-right:0px}.md\:block{display:block}.md\:inline{display:inline}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:gap-4{gap:1rem}.md\:p-10{padding:2.5rem}.md\:p-3{padding:0.75rem}.md\:px-0{padding-left:0px;padding-right:0px}.md\:pb-8{padding-bottom:2rem}.md\:pt-8{padding-top:2rem}.md\:text-left{text-align:left}.md\:text-2xl{font-size:1.5rem;line-height:2rem}.md\:text-3xl{font-size:1.875rem;line-height:2.25rem}.md\:text-xl{font-size:1.25rem;line-height:1.75rem}.md\:text-xs{font-size:0.75rem;line-height:1rem}}@media (min-width: 1024px){.lg\:col-span-1{grid-column:span 1 / span 1}.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:col-span-3{grid-column:span 3 / span 3}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}</style></head>
+<body class="p-4 md:pt-8 md:pb-8 bg-gray-100 relative min-h-screen">
+<div class="w-full max-w-6xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden md:p-10 relative z-10">
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-6 border-b pb-4 px-4 md:px-0">
+        <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900">Fortune Commercial City Financing</h1>
+        <button class="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow font-semibold transition-colors" onclick="openExportModal()" type="button">
+            <span class="material-symbols-outlined">image</span>
+            <span class="hidden md:inline">Export Summary</span>
+        </button>
+    </div>
+
+    <!-- STICKY TOP SUMMARY -->
+    <div class="sticky top-0 z-30 bg-white shadow-lg border-b border-gray-200 -mx-4 px-4 md:mx-0 md:px-0 pt-2 pb-2 mb-6 rounded-b-lg">
+        <div class="grid grid-cols-3 gap-2 md:gap-4 text-center md:text-left">
+            <div class="p-2 md:p-3 bg-gray-50 rounded-lg border-l-4 border-gray-400">
+                <p class="text-[10px] md:text-xs text-gray-500 font-bold uppercase">1. Base Price</p>
+                <p class="text-sm md:text-xl font-extrabold text-gray-800" id="basePriceSummary">2,350,000,000</p>
+                <p class="text-[10px] md:text-xs text-gray-500 font-medium hidden md:block" id="basePriceSummaryLakhs">23500 Lakhs</p>
+            </div>
+            <div class="p-2 md:p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+                <p class="text-[10px] md:text-xs text-yellow-700 font-bold uppercase">2. Premium</p>
+                <p class="text-sm md:text-xl font-extrabold text-yellow-700" id="totalAppliedPremiumSummary">0</p>
+                <p class="text-[10px] md:text-xs text-yellow-600 font-medium hidden md:block" id="totalAppliedPremiumSummaryLakhs">0 Ks</p>
+            </div>
+            <div class="p-2 md:p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                <p class="text-[10px] md:text-xs text-blue-700 font-bold uppercase">3. Total Price</p>
+                <p class="text-base md:text-2xl font-extrabold text-blue-700" id="finalContractPrice">2,350,000,000</p>
+                <p class="text-[10px] md:text-xs text-blue-600 font-medium hidden md:block" id="finalContractPriceLakhs">23500 Lakhs</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:col-span-3 lg:grid-cols-3 gap-8">
+        <!-- LEFT COLUMN: CONTROLS -->
+        <div class="lg:col-span-1 space-y-6">
+            <!-- Phase -->
+            <div>
+                <div class="flex justify-between items-center mb-2">
+                    <label class="font-bold text-gray-700">1. Project Phase</label>
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-100 text-indigo-700 rounded" id="handoverDateBadge">TBD</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="selector-label text-center p-3 rounded-lg border-2 bg-white border-gray-200" id="labelPhase1">
+                        <input class="radio-hidden" id="phase1" name="projectPhase" type="radio" value="Phase 1"> <span class="font-bold">Phase 1</span>
+                    </label>
+                    <label class="selector-label text-center p-3 rounded-lg border-2 active border-blue-500" id="labelPhase2">
+                        <input checked="" class="radio-hidden" id="phase2" name="projectPhase" type="radio" value="Phase 2"> <span class="font-bold">Phase 2</span>
+                    </label>
+                    <label class="selector-label text-center p-3 rounded-lg border-2 bg-white border-gray-200" id="labelPhase3">
+                        <input class="radio-hidden" id="phase3" name="projectPhase" type="radio" value="Phase 3"> <span class="font-bold">Phase 3</span>
+                    </label>
+                    <label class="selector-label text-center p-3 rounded-lg border-2 bg-white border-gray-200" id="labelPhase4">
+                        <input class="radio-hidden" id="phase4" name="projectPhase" type="radio" value="Phase 4"> <span class="font-bold">Phase 4</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Unit -->
+            <div id="unitSection">
+                <label class="block font-bold text-gray-700 mb-2">2. Unit Type</label>
+                <div class="grid grid-cols-2 gap-3" id="unitOptionsContainer">
+           <label class="selector-label text-center p-2 rounded-lg border-2 bg-white active border-blue-500">
+                <input class="radio-hidden" name="unitType" type="radio" value="Type A" checked="">
+                <span class="block font-bold text-sm text-gray-800">Type A</span>
+                <span class="text-[10px] text-gray-500">25'x50' (53' Park)</span>
+           </label>
+           <label class="selector-label text-center p-2 rounded-lg border-2 bg-white ">
+                <input class="radio-hidden" name="unitType" type="radio" value="Type A1">
+                <span class="block font-bold text-sm text-gray-800">Type A1</span>
+                <span class="text-[10px] text-gray-500">25'x50' (43' Park)</span>
+           </label>
+           <label class="selector-label text-center p-2 rounded-lg border-2 bg-white ">
+                <input class="radio-hidden" name="unitType" type="radio" value="Type B">
+                <span class="block font-bold text-sm text-gray-800">Type B</span>
+                <span class="text-[10px] text-gray-500">25'x40' (53' Park)</span>
+           </label>
+           <label class="selector-label text-center p-2 rounded-lg border-2 bg-white ">
+                <input class="radio-hidden" name="unitType" type="radio" value="Type B1">
+                <span class="block font-bold text-sm text-gray-800">Type B1</span>
+                <span class="text-[10px] text-gray-500">25'x40' (43' Park)</span>
+           </label></div>
+            </div>
+
+            <div class="input-group bg-gray-50 p-3 rounded border border-gray-200">
+                <label class="text-xs text-gray-500 font-bold uppercase">Calculated Base Price (Ks)</label>
+                <input class="block w-full bg-transparent font-bold text-gray-800 text-lg mt-1 focus:outline-none" id="homePrice" readonly="" type="text" value="0">
+                <p class="text-xs text-gray-400 text-right" id="inputHomePriceLakhs"></p>
+            </div>
+
+            <!-- Addons -->
+            <div>
+                <label class="block font-bold text-gray-700 mb-2">3. Facing &amp; Position</label>
+                <div class="flex space-x-3 mb-3">
+                    <label class="selector-label flex-1 text-center p-2 rounded-lg border-2" id="labelFacingEast">
+                        <input class="radio-hidden" name="unitFacing" type="radio" value="East"> <span class="text-sm font-bold">East (Premium)</span>
+                    </label>
+                    <label class="selector-label flex-1 text-center p-2 rounded-lg border-2" id="labelFacingWest">
+                        <input checked="" class="radio-hidden" name="unitFacing" type="radio" value="West"> <span class="text-sm font-bold">West</span>
+                    </label>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <label class="selector-label text-center p-2 rounded-lg border-2" id="labelCornerPlot">
+                        <input class="radio-hidden" name="premiumPlot" type="radio" value="Corner"> <span class="text-xs font-bold block">Corner</span>
+                    </label>
+                    <label class="selector-label text-center p-2 rounded-lg border-2" id="labelSecondCornerPlot">
+                        <input class="radio-hidden" name="premiumPlot" type="radio" value="Second Corner"> <span class="text-xs font-bold block">2nd Corner</span>
+                    </label>
+                    <label class="selector-label text-center p-2 rounded-lg border-2" id="labelNoPremiumPlot">
+                        <input checked="" class="radio-hidden" name="premiumPlot" type="radio" value="None"> <span class="text-xs font-bold block">Standard</span>
+                    </label>
+                </div>
+                <button class="text-xs text-blue-600 font-semibold mt-2 underline" id="togglePremiumPricingBtn" type="button">Edit Premium Prices</button>
+                <div class="hidden mt-3 space-y-2 p-3 bg-gray-50 rounded border" id="premiumPricingInputs">
+                    <div class="input-group">
+                        <label class="text-xs text-gray-500">Corner Charge (Ks)</label>
+                        <input class="w-full border rounded p-1 text-sm" id="cornerPlotAddonPrice" type="text" value="100,000,000">
+                    </div>
+                    <div class="input-group">
+                        <label class="text-xs text-gray-500">2nd Corner Charge (Ks)</label>
+                        <input class="w-full border rounded p-1 text-sm" id="secondCornerPlotAddonPrice" type="text" value="50,000,000">
+                    </div>
+                </div>
+            </div>
+
+            <!-- PLAN SELECTOR -->
+            <div class="border-t pt-4">
+                <h2 class="text-lg font-bold text-gray-800 mb-3">4. Payment &amp; Financing</h2>
+                <div class="input-group mb-4">
+                    <label class="text-xs font-bold text-gray-500 uppercase">Booking / Reservation (Ks)</label>
+                    <input class="w-full border-2 border-blue-200 rounded p-2 font-bold text-blue-800" id="bookingFee" type="text" value="20,000,000">
+                </div>
+                <div class="grid grid-cols-1 gap-2 mb-4">
+                    <label class="selector-label flex items-center p-3 rounded-lg border-2 hover:bg-gray-50" id="labelPlanCashDown">
+                        <input class="radio-hidden" id="planCashDown" name="paymentPlan" type="radio" value="CashDown">
+                        <span class="material-symbols-outlined text-2xl mr-3 text-gray-400">payments</span>
+                        <div>
+                            <span class="block font-bold text-sm">Cash Down Plan</span>
+                            <span class="block text-xs text-gray-500">Construction Linked</span>
+                        </div>
+                    </label>
+                    <label class="selector-label flex items-center p-3 rounded-lg border-2 hover:bg-gray-50 opacity-50 cursor-not-allowed" id="labelPlanDeveloper">
+                        <input class="radio-hidden" id="planDeveloper" name="paymentPlan" type="radio" value="SpecialDeveloper" disabled="">
+                        <span class="material-symbols-outlined text-2xl mr-3 text-gray-400">domain</span>
+                        <div>
+                            <span class="block font-bold text-sm">Fortune Commercial City</span>
+                            <span class="block text-xs text-gray-500">Special Installments</span>
+                        </div>
+                    </label>
+                    <label class="selector-label flex items-center p-3 rounded-lg border-2 hover:bg-gray-50" id="labelPlanMortgage">
+                        <input class="radio-hidden" id="planMortgage" name="paymentPlan" type="radio" value="Mortgage">
+                        <span class="material-symbols-outlined text-2xl mr-3 text-gray-400">account_balance</span>
+                        <div>
+                            <span class="block font-bold text-sm">Bank Mortgage</span>
+                            <span class="block text-xs text-gray-500">Long Term Loan</span>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Plan Params -->
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <div class="w-1/3">
+                            <label class="text-xs font-bold text-gray-500">Initial DP %</label>
+                            <input class="w-full border rounded p-2 font-bold" id="downPaymentPercent" type="number" value="30">
+                        </div>
+                        <div class="w-2/3 pl-3">
+                            <label class="text-xs font-bold text-gray-500">DP Amount (Ks)</label>
+                            <input class="w-full border rounded p-2 text-sm" id="downPaymentAmount" type="text">
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden Inputs for Plans -->
+                    <div class="hidden space-y-2" id="cashDownDetails">
+                        <div class="input-group">
+                            <label class="text-xs text-gray-500">DP Months</label>
+                            <input class="w-full border rounded p-1" id="cashDownDpMonths" type="number" value="3">
+                        </div>
+                        <div class="input-group">
+                            <label class="text-xs text-gray-500">Construction Months (Locked)</label>
+                            <input class="w-full border rounded p-1 bg-gray-100" id="cashDownBalMonths" readonly="" type="number" value="16">
+                        </div>
+                    </div>
+                    
+                    <div class="hidden space-y-2" id="developerPlanDetails">
+                        <div class="hidden text-sm font-medium text-amber-700 bg-amber-100 p-2 rounded border border-amber-200" id="phase3DevPlanInfo">
+                            <span class="font-bold">Special Plan:</span> 10% Initial + 40% Interim + 50% FCC Loan.
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-group">
+                                <label class="text-xs text-gray-500">DP Months</label>
+                                <input class="w-full border rounded p-1" id="dpMonths" type="number" value="3">
+                            </div>
+                            <div class="input-group">
+                                <label class="text-xs text-gray-500">Installment Months</label>
+                                <input class="w-full border rounded p-1" id="constructionMonths" type="number" value="16">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="text-xs text-gray-500">FCC Installment Rate (%)</label>
+                            <input class="w-full border rounded p-1" id="interestRate" type="number" value="0">
+                        </div>
+                    </div>
+                    
+                    <div class="hidden space-y-2" id="mortgagePlanDetails">
+                        <div class="input-group">
+                            <label class="text-xs text-gray-500">DP Months</label>
+                            <input class="w-full border rounded p-1" id="bankLoanDisbursementMonths" type="number" value="3">
+                        </div>
+                        <div class="flex space-x-2">
+                            <div class="w-1/2">
+                                <label class="text-xs text-gray-500">Loan Years</label>
+                                <input class="w-full border rounded p-1" id="bankLoanTermYears" type="number" value="15">
+                            </div>
+                            <div class="w-1/2">
+                                <label class="text-xs text-gray-500">Bank Rate (%)</label>
+                                <input class="w-full border rounded p-1" id="bankInterestRate" type="number" value="13">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: RESULTS -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- Summary Table -->
+            <div class="bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 flex items-center">
+                        <span class="material-symbols-outlined mr-2 text-blue-600">receipt_long</span> Payment Summary
+                    </h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+                            <tr>
+                                <th class="px-6 py-3 w-1/3">Stage</th>
+                                <th class="px-6 py-3 text-right">Amount (Ks)</th>
+                                <th class="px-6 py-3 text-right hidden sm:table-cell">Terms</th>
+                                <th class="px-6 py-3 text-right">Monthly (Ks)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <!-- Stage 1 -->
+                            <tr class="bg-blue-50/50">
+                                <td class="px-6 py-2 text-xs font-bold text-blue-800 uppercase tracking-wide" colspan="4">Stage 1: Initial Payment (<span id="summaryDpPercent">30</span>%)</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-3 pl-8 text-gray-600 font-medium">Total Cash Requirement</td>
+                                <td class="px-6 py-3 text-right font-bold text-gray-900" id="summaryTotalDownPayment">0</td>
+                                <td class="px-6 py-3 text-right text-gray-400 hidden sm:table-cell">-</td>
+                                <td class="px-6 py-3 text-right text-gray-400">-</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-2 pl-8 text-gray-500 italic text-xs">Less: Booking Fee</td>
+                                <td class="px-6 py-2 text-right text-red-500 italic text-xs" id="summaryBookingFee">0</td>
+                                <td class="px-6 py-2 text-right text-gray-400 text-xs hidden sm:table-cell">Month 0</td>
+                                <td class="px-6 py-2 text-right text-gray-400 text-xs">-</td>
+                            </tr>
+                            <!-- Split Logic Rows -->
+                            <tr class="hidden bg-yellow-50" id="rowSpecialStage1">
+                                <td class="px-6 py-3 pl-8 text-gray-700 font-semibold">Initial 10% (Net)</td>
+                                <td class="px-6 py-3 text-right font-bold text-gray-900" id="summarySpecialStage1Amount">0</td>
+                                <td class="px-6 py-3 text-right text-gray-600 hidden sm:table-cell">Month 1</td>
+                                <td class="px-6 py-3 text-right text-gray-500">-</td>
+                            </tr>
+                            <tr class="hidden bg-yellow-50" id="rowSpecialStage2">
+                                <td class="px-6 py-3 pl-8 text-gray-700 font-semibold">Interim 40%</td>
+                                <td class="px-6 py-3 text-right font-bold text-gray-900" id="summarySpecialStage2Amount">0</td>
+                                <td class="px-6 py-3 text-right text-gray-600 hidden sm:table-cell" id="summarySpecialStage2Terms">10 Mo</td>
+                                <td class="px-6 py-3 text-right font-bold text-blue-600" id="summarySpecialStage2Monthly">0</td>
+                            </tr>
+                            <!-- Standard Balance Row -->
+                            <tr id="rowStandardBalance">
+                                <td class="px-6 py-3 pl-8 text-gray-700 font-bold">Balance Cash Down</td>
+                                <td class="px-6 py-3 text-right font-bold text-gray-900" id="summaryBalanceDown">0</td>
+                                <td class="px-6 py-3 text-right text-gray-600 hidden sm:table-cell" id="summaryDpTerms">3 Mo</td>
+                                <td class="px-6 py-3 text-right font-bold text-blue-600" id="summaryMonthlyCash">0</td>
+                            </tr>
+                            <!-- Stage 2 -->
+                            <tr class="bg-green-50/50">
+                                <td class="px-6 py-2 text-xs font-bold text-green-800 uppercase tracking-wide" colspan="4">Stage 2: <span id="summaryLoanType">Financing</span> (<span id="summaryLoanPercent">70</span>%)</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-3 pl-8 text-gray-700 font-medium">Principal Amount</td>
+                                <td class="px-6 py-3 text-right font-bold text-gray-900" id="summaryPrincipal">0</td>
+                                <td class="px-6 py-3 text-right text-gray-600 hidden sm:table-cell" id="summaryLoanTerms">15 Yr</td>
+                                <td class="px-6 py-3 text-right font-bold text-green-600 text-lg" id="summaryMonthlyLoan">0</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-2 pl-8 text-gray-500 italic text-xs">Est. Total Interest</td>
+                                <td class="px-6 py-2 text-right text-gray-500 italic text-xs" id="summaryTotalInterest">0</td>
+                                <td colspan="2"></td>
+                            </tr>
+                            <!-- Footer -->
+                            <tr class="bg-gray-800 text-white">
+                                <td class="px-6 py-4 font-bold">TOTAL PROJECT COST</td>
+                                <td class="px-6 py-4 text-right font-extrabold text-lg" id="summaryTotalOutlay">0</td>
+                                <td class="px-6 py-4 text-right text-xs text-gray-400 hidden sm:table-cell" colspan="2">(Price + Interest)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Detail Schedule -->
+            <div class="bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center cursor-pointer hover:bg-gray-100" onclick="toggleSchedule()">
+                    <h3 class="text-lg font-bold text-gray-800 flex items-center">
+                        <span class="material-symbols-outlined mr-2 text-indigo-600">calendar_month</span> Detailed Schedule
+                    </h3>
+                    <span class="material-symbols-outlined transform transition-transform" id="scheduleToggleIcon">expand_more</span>
+                </div>
+                <div class="hidden transition-all" id="scheduleContainer">
+                    <div class="max-h-96 overflow-y-auto">
+                        <table class="w-full text-xs text-left sticky-header-table">
+                            <thead class="bg-indigo-50 text-indigo-800 uppercase font-bold sticky top-0">
+                                <tr>
+                                    <th class="px-4 py-2 text-center">#</th>
+                                    <th class="px-4 py-2">Date</th>
+                                    <th class="px-4 py-2">Description</th>
+                                    <th class="px-4 py-2 text-right">Payment</th>
+                                    <th class="px-4 py-2 text-right hidden sm:table-cell">Principal</th>
+                                    <th class="px-4 py-2 text-right hidden sm:table-cell">Interest</th>
+                                    <th class="px-4 py-2 text-right">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100" id="scheduleBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden items-center justify-center z-50" id="exportModal">
+    <div class="bg-white rounded-lg shadow-2xl p-6 w-full max-w-md">
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Export Summary</h3>
+        <p class="text-sm text-gray-500 mb-4">Enter client details to include in the exported schedule.</p>
+        <div class="space-y-3">
+            <input class="w-full border rounded p-2" id="exportName" placeholder="Client Name" type="text">
+            <input class="w-full border rounded p-2" id="exportPhone" placeholder="Phone Number" type="text">
+            <input class="w-full border rounded p-2" id="exportUnit" placeholder="Unit Number" type="text">
+        </div>
+        <div class="mt-6 flex justify-end space-x-3">
+            <button class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 font-medium" onclick="closeExportModal()" type="button">Cancel</button>
+            <button class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 font-medium flex items-center transition-colors" id="generateImgBtn" onclick="prepareAndExport()" type="button">
+                <span class="material-symbols-outlined text-sm mr-1">download</span> <span id="genBtnText">Download Image</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- HIDDEN EXPORT RENDER CONTAINER (Positioned absolutely but safely off-screen) -->
+<div class="p-8 bg-white text-gray-900 border-t-8 border-indigo-600 font-sans" id="exportContainer">
+    <div class="flex justify-between items-start mb-6 border-b pb-4">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Payment Schedule</h1>
+            <p class="text-sm text-gray-500">Fortune Commercial City Financing Summary</p>
+        </div>
+        <div class="text-right">
+            <p class="text-xs text-gray-400">Date</p>
+            <p class="text-sm font-bold" id="printDate"></p>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-2 gap-6 mb-6">
+        <div class="bg-gray-50 p-4 rounded border">
+            <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Client Info</h4>
+            <p class="text-sm"><span class="font-semibold">Name:</span> <span id="printName"></span></p>
+            <p class="text-sm"><span class="font-semibold">Phone:</span> <span id="printPhone"></span></p>
+            <p class="text-sm"><span class="font-semibold">Unit:</span> <span id="printUnit"></span></p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded border">
+            <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Property Info</h4>
+            <p class="text-sm"><span class="font-semibold">Phase:</span> <span id="printPhase"></span></p>
+            <p class="text-sm"><span class="font-semibold">Type:</span> <span id="printType"></span></p>
+            <p class="text-sm"><span class="font-semibold">Plan:</span> <span class="text-indigo-700 font-bold" id="printPlan"></span></p>
+        </div>
+    </div>
+
+    <div class="mb-6">
+        <table class="w-full text-sm border-collapse">
+            <tbody><tr class="border-b"><td class="py-2 text-gray-600">Base Price</td><td class="py-2 text-right font-bold" id="printBasePrice"></td></tr>
+            <tr class="border-b"><td class="py-2 text-gray-600">Total Premium</td><td class="py-2 text-right font-bold" id="printAddons"></td></tr>
+            <tr class="bg-indigo-50 border-b border-indigo-200"><td class="py-2 pl-2 font-bold text-indigo-900">Contract Price</td><td class="py-2 pr-2 text-right font-extrabold text-indigo-700 text-lg" id="printTotalPrice"></td></tr>
+        </tbody></table>
+    </div>
+
+    <div>
+        <h4 class="text-sm font-bold text-gray-800 mb-2 uppercase">Payment Schedule</h4>
+        <table class="w-full text-xs text-left border border-gray-300">
+            <thead class="bg-gray-200 text-gray-700 uppercase">
+                <tr>
+                    <th class="px-2 py-1 border-b">Mo</th>
+                    <th class="px-2 py-1 border-b">Date</th>
+                    <th class="px-2 py-1 border-b">Description</th>
+                    <th class="px-2 py-1 border-b text-right">Payment</th>
+                    <th class="px-2 py-1 border-b text-right">Balance</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200" id="printScheduleBody">
+                <!-- Copied Rows -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="mt-6 pt-4 border-t text-center">
+        <p class="text-xs text-gray-400">Indicative Calculation Only. Subject to Contract.</p>
+    </div>
+</div>
+
+<script>
+    // --- Data ---
+    const unitData = {
+        'Type A': { base: 2350000000, east: 130000000 },
+        'Type A1': { base: 2450000000, east: 130000000 },
+        'Type B': { base: 1980000000, east: 100000000 },
+        'Type B1': { base: 1980000000, east: 100000000 },
+        'Type D': { base: 1290000000, east: 40000000 },
+        'Type E': { base: 990000000, east: 30000000 },
+    };
+
+    // --- Utils ---
+    function getCleanVal(id) { return parseFloat(document.getElementById(id).value.replace(/,/g, '')) || 0; }
+    function fmtNum(n) { return Math.round(n).toLocaleString('en-US'); }
+    function fmtLakhs(n) {
+        if(n===0) return "0 Ks";
+        return n >= 100000 ? (n/100000).toFixed(2).replace(/\.00$/,'') + " Lakhs" : fmtNum(n) + " Ks";
+    }
+    function updateDisplay(id, n) {
+        const el = document.getElementById(id);
+        if(el) el.textContent = fmtNum(n);
+        const lId = id + "Lakhs";
+        if(document.getElementById(lId)) document.getElementById(lId).textContent = fmtLakhs(n);
+    }
+    function formatInput(el, val) {
+        let n = val !== undefined ? val : parseFloat(el.value.replace(/,/g, ''));
+        if(!isNaN(n)) el.value = Math.round(n).toLocaleString('en-US');
+    }
+    function addMonths(i) {
+        const d = new Date(); d.setMonth(d.getMonth()+i);
+        return d.toLocaleDateString('en-US', {month:'short', year:'numeric'});
+    }
+    function getMonthsUntil(d) {
+        const now = new Date(); const t = new Date(d);
+        return Math.max(0, (t.getFullYear()-now.getFullYear())*12 + (t.getMonth()-now.getMonth()));
+    }
+
+    // --- State & Config ---
+    const planConfig = {
+        'Phase 2': { target: '2027-04-30', lbl: 'Apr 2027', CashDown: {dp:30,dpMo:3,bal:70,dyn:true}, Mortgage:{dp:30,dpMo:3,bal:70,yr:15,r:13}, SpecialDeveloper:{disabled:true} },
+        'Phase 3': { target: '2026-09-30', lbl: 'Sep 2026', CashDown: {dp:30,dpMo:3,bal:70,dyn:true}, SpecialDeveloper:{dp:50,dpMo:1,bal:50,yr:15,r:15,split:true,s1:10,s1m:1,s2:40,dyn:true}, Mortgage:{dp:30,dpMo:3,bal:70,yr:15,r:13} }
+    };
+
+    // --- Units Rendering ---
+    function renderUnits(ph) {
+        const unitContainer = document.getElementById('unitOptionsContainer');
+        unitContainer.innerHTML = '';
+
+        const units = {
+            'Phase 2': [
+                {id:'Type A', desc:"25'x50' (53' Park)"}, {id:'Type A1', desc:"25'x50' (43' Park)"},
+                {id:'Type B', desc:"25'x40' (53' Park)"}, {id:'Type B1', desc:"25'x40' (43' Park)"}
+            ],
+            'Phase 3': [
+                {id:'Type D', desc:"20'x40'"}, {id:'Type E', desc:"15'x40'"}
+            ],
+            'Phase 1': [], 'Phase 4': []
+        };
+
+        if(!units[ph]) return;
+
+        units[ph].forEach((u, idx) => {
+           unitContainer.innerHTML += `
+           <label class="selector-label text-center p-2 rounded-lg border-2 bg-white ${idx===0?'active border-blue-500':''}">
+                <input class="radio-hidden" name="unitType" type="radio" value="${u.id}" ${idx===0?'checked':''}>
+                <span class="block font-bold text-sm text-gray-800">${u.id}</span>
+                <span class="text-[10px] text-gray-500">${u.desc}</span>
+           </label>`; 
+        });
+
+        // Bind listeners
+        document.querySelectorAll('input[name="unitType"]').forEach(el => el.addEventListener('change', (e) => {
+            visualUpdate('unitType'); calculate();
+        }));
+    }
+
+    // --- Core Calculation ---
+    function calculate() {
+        const phEl = document.querySelector('input[name="projectPhase"]:checked');
+        if(!phEl) return;
+        const ph = phEl.value;
+        const typeEl = document.querySelector('input[name="unitType"]:checked');
+        if(!typeEl) return;
+        const type = typeEl.value;
+
+        // Pricing
+        const u = unitData[type];
+        const base = u ? u.base : 0;
+        let add = 0;
+        
+        const facingEl = document.querySelector('input[name="unitFacing"]:checked');
+        if(facingEl && facingEl.value === 'East') add += (u ? u.east : 0);
+        
+        const plotEl = document.querySelector('input[name="premiumPlot"]:checked');
+        if(plotEl) {
+            const plot = plotEl.value;
+
+            // Define group prices for corner & second corner
+            const cornerPricesByTypeGroup = {
+                group1: { corner: 100000000, secondCorner: 50000000 }, // A, A1, B, B1
+                group2: { corner: 90000000, secondCorner: 70000000 },  // D
+                group3: { corner: 70000000, secondCorner: 30000000 },  // E
+            };
+
+            // Determine which group the type belongs to
+            let cornerPrice = 0;
+            let secondCornerPrice = 0;
+            if(['Type A','Type A1','Type B','Type B1'].includes(type)) {
+                cornerPrice = cornerPricesByTypeGroup.group1.corner;
+                secondCornerPrice = cornerPricesByTypeGroup.group1.secondCorner;
+            }
+            else if(type === 'Type D') {
+                cornerPrice = cornerPricesByTypeGroup.group2.corner;
+                secondCornerPrice = cornerPricesByTypeGroup.group2.secondCorner;
+            }
+            else if(type === 'Type E') {
+                cornerPrice = cornerPricesByTypeGroup.group3.corner;
+                secondCornerPrice = cornerPricesByTypeGroup.group3.secondCorner;
+            }
+
+            if(plot === 'Corner') add += cornerPrice;
+            else if(plot === 'Second Corner') add += secondCornerPrice;
+        }
+        
+        const total = base + add;
+        
+        updateDisplay('basePriceSummary', base);
+        updateDisplay('totalAppliedPremiumSummary', add);
+        updateDisplay('finalContractPrice', total);
+
+        // Plan Logic
+        const planEl = document.querySelector('input[name="paymentPlan"]:checked');
+        if(!planEl) return;
+        const plan = planEl.value;
+        
+        const book = getCleanVal('bookingFee');
+        const dpPct = parseFloat(document.getElementById('downPaymentPercent').value) || 0;
+        const dpAmt = total * (dpPct/100);
+        
+        // Sync DP Amount input display (avoid recursive loop if editing)
+        if(document.activeElement.id !== 'downPaymentAmount') {
+            document.getElementById('downPaymentAmount').value = Math.round(dpAmt).toLocaleString('en-US');
+        }
+
+        const balDp = dpAmt - book;
+        
+        // Configs
+        const conf = planConfig[ph];
+        const def = conf[plan];
+        
+        const moRem = getMonthsUntil(conf.target);
+        document.getElementById('handoverDateBadge').textContent = `HO: ${conf.lbl} (~${moRem}m)`;
+
+        let dpMo = 0, balMo = 0, rate = 0;
+        
+        if(plan === 'CashDown') {
+            dpMo = parseInt(document.getElementById('cashDownDpMonths').value);
+            // Dynamic lock
+            if(def && def.dyn) {
+                balMo = moRem - dpMo; 
+                document.getElementById('cashDownBalMonths').value = balMo > 0 ? balMo : 1;
+            }
+            else balMo = parseInt(document.getElementById('cashDownBalMonths').value);
+            if(balMo < 1) balMo = 1;
+        } else if(plan === 'SpecialDeveloper') {
+            dpMo = parseInt(document.getElementById('dpMonths').value);
+            balMo = parseInt(document.getElementById('constructionMonths').value);
+            rate = parseFloat(document.getElementById('interestRate').value);
+        } else {
+            dpMo = parseInt(document.getElementById('bankLoanDisbursementMonths').value);
+            balMo = parseInt(document.getElementById('bankLoanTermYears').value) * 12;
+            rate = parseFloat(document.getElementById('bankInterestRate').value);
+        }
+
+        // Render Summary
+        document.getElementById('summaryDpPercent').textContent = dpPct;
+        updateDisplay('summaryTotalDownPayment', dpAmt);
+        updateDisplay('summaryBookingFee', book);
+        updateDisplay('summaryBalanceDown', balDp);
+        document.getElementById('summaryDpTerms').textContent = dpMo;
+        
+        // Render Schedule
+        let schedHtml = '';
+        let curBal = total;
+        // Booking
+        schedHtml += `<tr class="border-b"><td class="px-3 py-2 text-gray-400">0</td><td class="px-3 py-2">Now</td><td class="px-3 py-2 font-medium">Booking</td><td class="px-3 py-2 text-right font-bold text-indigo-600">${fmtNum(book)}</td></tr>`;
+        curBal -= book;
+
+        if(plan === 'SpecialDeveloper' && def && def.split) {
+            document.getElementById('rowStandardBalance').classList.add('hidden');
+            document.getElementById('rowSpecialStage1').classList.remove('hidden');
+            document.getElementById('rowSpecialStage2').classList.remove('hidden');
+            
+            const s1 = (total*0.1)-book;
+            updateDisplay('summarySpecialStage1Amount', s1>0?s1:0);
+            
+            const s2 = total*0.4;
+            let s2Mo = moRem - 1; if(s2Mo<1)s2Mo=1;
+            updateDisplay('summarySpecialStage2Amount', s2);
+            document.getElementById('summarySpecialStage2Terms').textContent = `${s2Mo} Mo`;
+            updateDisplay('summarySpecialStage2Monthly', s2/s2Mo);
+            
+            // Schedule
+            schedHtml += `<tr class="border-b"><td class="px-3 py-2">1</td><td class="px-3 py-2">${addMonths(1)}</td><td class="px-3 py-2">10% Bal</td><td class="px-3 py-2 text-right font-bold">${fmtNum(s1)}</td></tr>`;
+            curBal -= s1;
+            const s2m = s2/s2Mo;
+            for(let i=1; i<=s2Mo; i++) {
+                schedHtml += `<tr class="border-b bg-yellow-50"><td class="px-3 py-2">${1+i}</td><td class="px-3 py-2">${addMonths(1+i)}</td><td class="px-3 py-2">Interim</td><td class="px-3 py-2 text-right font-bold">${fmtNum(s2m)}</td></tr>`;
+                curBal -= s2m;
+            }
+            
+            let lBal = curBal;
+            let mRate = rate/100/12;
+            let pmt;
+            // Fix: handle zero interest
+            if(mRate === 0) {
+                pmt = lBal / balMo;
+            } else {
+                pmt = lBal * (mRate * Math.pow(1+mRate, balMo))/(Math.pow(1+mRate, balMo)-1);
+            }
+            let totInt = (pmt*balMo)-lBal;
+            
+            updateDisplay('summaryPrincipal', lBal);
+            updateDisplay('summaryMonthlyLoan', pmt);
+            updateDisplay('summaryTotalInterest', totInt);
+            updateDisplay('summaryTotalOutlay', total+totInt);
+            document.getElementById('summaryLoanTerms').textContent = `${Math.floor(balMo/12)} Yr @ ${rate}%`;
+            document.getElementById('summaryLoanType').textContent = "Fortune Plan";
+            
+            for(let i=1; i<=balMo; i++) {
+                schedHtml += `<tr class="border-b bg-green-50"><td class="px-3 py-2">${1+s2Mo+i}</td><td class="px-3 py-2">${addMonths(1+s2Mo+i)}</td><td class="px-3 py-2">Loan PMT</td><td class="px-3 py-2 text-right font-bold">${fmtNum(pmt)}</td></tr>`;
+            }
+
+        } else {
+            document.getElementById('rowStandardBalance').classList.remove('hidden');
+            document.getElementById('rowSpecialStage1').classList.add('hidden');
+            document.getElementById('rowSpecialStage2').classList.add('hidden');
+            
+            const dpMth = balDp/dpMo;
+            updateDisplay('summaryMonthlyCash', dpMth);
+            
+            for(let i=1; i<=dpMo; i++) {
+                schedHtml += `<tr class="border-b"><td class="px-3 py-2">${i}</td><td class="px-3 py-2">${addMonths(i)}</td><td class="px-3 py-2">DP Inst.</td><td class="px-3 py-2 text-right font-bold">${fmtNum(dpMth)}</td></tr>`;
+                curBal -= dpMth;
+            }
+            
+            updateDisplay('summaryPrincipal', curBal);
+            let pmt = 0, totInt = 0;
+            
+            if(plan === 'CashDown') {
+                pmt = curBal/balMo;
+                document.getElementById('summaryLoanType').textContent = "Construction";
+                document.getElementById('summaryLoanTerms').textContent = `${balMo} Mo @ 0%`;
+                updateDisplay('summaryMonthlyLoan', pmt);
+                updateDisplay('summaryTotalInterest', 0);
+                updateDisplay('summaryTotalOutlay', total);
+                
+                for(let i=1; i<=balMo; i++) {
+                    schedHtml += `<tr class="border-b bg-green-50"><td class="px-3 py-2">${dpMo+i}</td><td class="px-3 py-2">${addMonths(dpMo+i)}</td><td class="px-3 py-2">Const. Inst.</td><td class="px-3 py-2 text-right font-bold">${fmtNum(pmt)}</td></tr>`;
+                }
+            } else {
+                let mRate = rate/100/12;
+                // Fix: handle zero interest
+                if(mRate === 0) {
+                    pmt = curBal / balMo;
+                } else {
+                    pmt = curBal * (mRate * Math.pow(1+mRate, balMo))/(Math.pow(1+mRate, balMo)-1);
+                }
+                totInt = (pmt*balMo)-curBal;
+                
+                document.getElementById('summaryLoanType').textContent = "Bank Loan";
+                document.getElementById('summaryLoanTerms').textContent = `${Math.floor(balMo/12)} Yr @ ${rate}%`;
+                updateDisplay('summaryMonthlyLoan', pmt);
+                updateDisplay('summaryTotalInterest', totInt);
+                updateDisplay('summaryTotalOutlay', total+totInt);
+                
+                schedHtml += `<tr class="bg-indigo-100 border-b border-indigo-200"><td class="px-3 py-3 font-bold text-indigo-800" colspan="3">Bank Mortgage EMI (After Approval)</td><td class="px-3 py-3 text-right font-black text-indigo-800">${fmtNum(pmt)}/mo</td></tr>`;
+            }
+        }
+        
+        document.getElementById('scheduleBody').innerHTML = schedHtml;
+    }
+
+    // --- Visual Updates ---
+    function visualUpdate(name) {
+        document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+            const lbl = r.parentElement;
+            if(r.checked){ lbl.classList.add('active','border-blue-500'); lbl.classList.remove('bg-white','border-gray-200'); }
+            else { lbl.classList.remove('active','border-blue-500'); lbl.classList.add('bg-white','border-gray-200'); }
+        });
+    }
+
+    // --- EXPORT LOGIC ---
+    async function prepareAndExport() {
+    const btn = document.getElementById('generateImgBtn');
+    const btnText = document.getElementById('genBtnText');
+    btn.disabled = true;
+    btnText.textContent = "Generating...";
+
+    // 1. Fill Hidden Container
+    document.getElementById('printDate').innerText = new Date().toLocaleDateString();
+    document.getElementById('printName').innerText = document.getElementById('exportName').value || 'Guest';
+
+    // Export phone as plain text, preserving leading zeros, no changes
+    let phoneRaw = document.getElementById('exportPhone').value || '-';
+    phoneRaw = phoneRaw.trim(); // Keep exactly as typed
+    document.getElementById('printPhone').innerText = phoneRaw || '-';
+
+    document.getElementById('printUnit').innerText = document.getElementById('exportUnit').value || '-';
+
+    document.getElementById('printBasePrice').innerText = document.getElementById('basePriceSummary').innerText;
+    document.getElementById('printAddons').innerText = document.getElementById('totalAppliedPremiumSummary').innerText;
+    document.getElementById('printTotalPrice').innerText = document.getElementById('finalContractPrice').innerText;
+
+    document.getElementById('printPhase').innerText = document.querySelector('input[name="projectPhase"]:checked').parentElement.innerText.trim();
+    const typeEl = document.querySelector('input[name="unitType"]:checked');
+    if(typeEl) document.getElementById('printType').innerText = typeEl.parentElement.querySelector('span').innerText.trim();
+
+    const planEl = document.querySelector('input[name="paymentPlan"]:checked');
+    if(planEl) {
+        const planVal = planEl.value;
+        let planName = "Bank Mortgage";
+        if(planVal === 'CashDown') planName = "Cash Down";
+        else if(planVal === 'SpecialDeveloper') planName = "Fortune City Plan";
+        document.getElementById('printPlan').innerText = planName;
+    }
+
+    // Clone Schedule
+    document.getElementById('printScheduleBody').innerHTML = document.getElementById('scheduleBody').innerHTML;
+
+    // 2. Render
+    const container = document.getElementById('exportContainer');
+
+    container.style.opacity = '1';
+    container.style.zIndex = '-50';
+    container.style.left = '0px'; 
+    container.style.top = '0px';
+
+    try {
+        await new Promise(resolve => setTimeout(resolve, 500)); // Paint delay
+        const canvas = await html2canvas(container, { 
+            scale: 2, 
+            useCORS: true, 
+            logging: false, 
+            backgroundColor: '#ffffff',
+            windowWidth: 1200 
+        });
+
+        const link = document.createElement('a');
+        link.download = `Summary_${document.getElementById('printName').innerText}.png`;
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        closeExportModal();
+    } catch (e) {
+        alert("Export Error: " + e.message);
+    } finally {
+        container.style.left = '-9999px';
+        btn.disabled = false;
+        btnText.textContent = "Download Image";
+    }
+}
+
+    function openExportModal() { 
+        document.getElementById('exportModal').classList.remove('hidden'); 
+        document.getElementById('exportModal').classList.add('flex');
+    }
+    function closeExportModal() { 
+        document.getElementById('exportModal').classList.add('hidden'); 
+        document.getElementById('exportModal').classList.remove('flex');
+    }
+    function toggleSchedule() {
+        const c = document.getElementById('scheduleContainer');
+        const i = document.getElementById('scheduleToggleIcon');
+        c.classList.toggle('hidden');
+        i.innerText = c.classList.contains('hidden') ? 'expand_more' : 'expand_less';
+    }
+
+    // --- Init ---
+    window.addEventListener('load', () => {
+    // Listeners for inputs
+    document.querySelectorAll('input').forEach(i => {
+        i.addEventListener('input', (e) => {
+            if(e.target.id === 'downPaymentAmount') {
+                const val = getCleanVal('downPaymentAmount');
+                const total = getCleanVal('homePrice') + getCleanVal('cornerPlotAddonPrice'); 
+            } else if(e.target.type !== 'radio') {
+                formatInput(e.target);
+            }
+            calculate();
+        });
+    });
+
+    // Auto prepend single quote to phone input to preserve formatting
+    const phoneInput = document.getElementById('exportPhone');
+    phoneInput.addEventListener('input', () => {
+        let val = phoneInput.value;
+        if (val.length > 0 && val[0] !== "'") {
+            phoneInput.value = "'" + val;
+        }
+    });
+
+        // Specific listeners
+        document.getElementById('downPaymentAmount').addEventListener('change', (e) => {
+            const val = getCleanVal('downPaymentAmount');
+            const total = parseFloat(document.getElementById('finalContractPrice').textContent.replace(/,/g,''))||0;
+            if(total>0) document.getElementById('downPaymentPercent').value = (val/total*100).toFixed(2);
+            formatInput(e.target);
+            calculate();
+        });
+        document.getElementById('downPaymentPercent').addEventListener('input', () => {
+             const pct = parseFloat(document.getElementById('downPaymentPercent').value)||0;
+             const total = parseFloat(document.getElementById('finalContractPrice').textContent.replace(/,/g,''))||0;
+             formatInput(document.getElementById('downPaymentAmount'), total*(pct/100));
+        });
+
+        // Radio Groups
+        ['projectPhase','unitType','unitFacing','premiumPlot','paymentPlan'].forEach(g => {
+            document.querySelectorAll(`input[name="${g}"]`).forEach(el => {
+                el.addEventListener('change', () => {
+                    visualUpdate(g);
+                    if(g==='projectPhase') {
+                        renderUnits(el.value);
+                        
+                        // Plan Disable Logic
+                        const c = planConfig[el.value];
+                        const d = document.getElementById('planDeveloper');
+                        if(c.SpecialDeveloper.disabled) {
+                            d.disabled=true; d.parentElement.classList.add('opacity-50','cursor-not-allowed');
+                            if(d.checked) { document.getElementById('planMortgage').checked=true; visualUpdate('paymentPlan'); }
+                        } else {
+                            d.disabled=false; d.parentElement.classList.remove('opacity-50','cursor-not-allowed');
+                        }
+                    }
+                    if(g==='paymentPlan') {
+                        const pl = document.querySelector('input[name="paymentPlan"]:checked').value;
+                        document.getElementById('cashDownDetails').classList.add('hidden');
+                        document.getElementById('developerPlanDetails').classList.add('hidden');
+                        document.getElementById('mortgagePlanDetails').classList.add('hidden');
+                        if(pl==='CashDown') document.getElementById('cashDownDetails').classList.remove('hidden');
+                        if(pl==='SpecialDeveloper') document.getElementById('developerPlanDetails').classList.remove('hidden');
+                        if(pl==='Mortgage') document.getElementById('mortgagePlanDetails').classList.remove('hidden');
+                        
+                        const ph = document.querySelector('input[name="projectPhase"]:checked').value;
+                        const def = planConfig[ph]?.[pl];
+                        if(def) {
+                            document.getElementById('downPaymentPercent').value = def.dp;
+                            document.getElementById('downPaymentPercent').dispatchEvent(new Event('input'));
+                        }
+                    }
+                    calculate();
+                });
+            });
+        });
+        
+        document.getElementById('togglePremiumPricingBtn').addEventListener('click', ()=>document.getElementById('premiumPricingInputs').classList.toggle('hidden'));
+
+        // Init trigger
+        setTimeout(() => {
+            const p2 = document.getElementById('phase2');
+            if(p2) { 
+                p2.checked=true; p2.dispatchEvent(new Event('change')); 
+            }
+        }, 100);
+    });
+
+</script>
+
+</body></html>
