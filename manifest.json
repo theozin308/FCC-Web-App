@@ -1,6 +1,6 @@
 {
-  "short_name": "MyApp",
-  "name": "My Web Application",
+  "short_name": "FCC",
+  "name": "Fortune Commercial City",
   "icons": [
     {
       "src": "icon-192.png",
