@@ -3,18 +3,18 @@
   "name": "Fortune Commercial City",
   "icons": [
     {
-      "src": "icon-192.png",
-      "type": "image/png",
+      "src": "IMG_1291.jpeg",
+      "type": "image/jpeg",
       "sizes": "192x192"
     },
     {
-      "src": "icon-512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "IMG_1291.jpeg",
+      "type": "image/jpeg",
+      "sizes": "180x180"
     }
   ],
   "start_url": "./index.html",
-  "background_color": "#ffffff",
+  "background_color": "#020293",
   "display": "standalone",
   "theme_color": "#000000"
 }
