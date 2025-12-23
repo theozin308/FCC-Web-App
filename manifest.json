@@ -1,0 +1,21 @@
+{
+  "name": "Fortune Commercial City",
+  "short_name": "FortuneCity",
+  "start_url": "/FCC-Web-App/",
+  "scope": "/FCC-Web-App/",
+  "display": "standalone",
+  "background_color": "#16293e",
+  "theme_color": "#e6b325",
+  "icons": [
+    {
+      "src": "FCC_IMG.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "FCC_IMG.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
