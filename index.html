@@ -495,310 +495,322 @@ if ('serviceWorker' in navigator) {
 
 <script>
     // --- Data ---
-    const unitData = {
-        'Type A': { base: 2350000000, east: 130000000 },
-        'Type A1': { base: 2450000000, east: 130000000 },
-        'Type B': { base: 1980000000, east: 100000000 },
-        'Type B1': { base: 1980000000, east: 100000000 },
-        'Type D': { base: 1290000000, east: 40000000 },
-        'Type E': { base: 990000000, east: 30000000 },
+const unitData = {
+    'Type A': { base: 2350000000, east: 130000000 },
+    'Type A1': { base: 2450000000, east: 130000000 },
+    'Type B': { base: 1980000000, east: 100000000 },
+    'Type B1': { base: 1980000000, east: 100000000 },
+    'Type D': { base: 1290000000, east: 40000000 },
+    'Type E': { base: 990000000, east: 30000000 },
+};
+
+// --- Utils ---
+function getCleanVal(id) { return parseFloat(document.getElementById(id).value.replace(/,/g, '')) || 0; }
+function fmtNum(n) { return Math.round(n).toLocaleString('en-US'); }
+function fmtLakhs(n) {
+    if(n===0) return "0 Ks";
+    return n >= 100000 ? (n/100000).toFixed(2).replace(/\.00$/,'') + " Lakhs" : fmtNum(n) + " Ks";
+}
+function updateDisplay(id, n) {
+    const el = document.getElementById(id);
+    if(el) el.textContent = fmtNum(n);
+    const lId = id + "Lakhs";
+    if(document.getElementById(lId)) document.getElementById(lId).textContent = fmtLakhs(n);
+}
+function formatInput(el, val) {
+    let n = val !== undefined ? val : parseFloat(el.value.replace(/,/g, ''));
+    if(!isNaN(n)) el.value = Math.round(n).toLocaleString('en-US');
+}
+// Always use payment count labels for schedule dates:
+function getLabelForMonth(index) {
+    const suffix = (n) => {
+        if (n === 1) return 'st';
+        if (n === 2) return 'nd';
+        if (n === 3) return 'rd';
+        return 'th';
+    };
+    return `${index}${suffix(index)} payment`;
+}
+function addMonths(i) {
+    // fallback if needed elsewhere
+    const d = new Date(); d.setMonth(d.getMonth()+i);
+    return d.toLocaleDateString('en-US', {month:'short', year:'numeric'});
+}
+function getMonthsUntil(d) {
+    const now = new Date(); const t = new Date(d);
+    return Math.max(0, (t.getFullYear()-now.getFullYear())*12 + (t.getMonth()-now.getMonth()));
+}
+
+// --- State & Config ---
+const planConfig = {
+    'Phase 2': { target: '2027-04-30', lbl: 'Apr 2027', CashDown: {dp:30,dpMo:3,bal:70,dyn:true}, Mortgage:{dp:30,dpMo:3,bal:70,yr:15,r:13}, SpecialDeveloper:{disabled:true} },
+    'Phase 3': { target: '2026-09-30', lbl: 'Sep 2026', CashDown: {dp:30,dpMo:3,bal:70,dyn:true}, SpecialDeveloper:{dp:50,dpMo:1,bal:50,yr:15,r:15,split:true,s1:10,s1m:1,s2:40,dyn:true}, Mortgage:{dp:30,dpMo:3,bal:70,yr:15,r:13} }
+};
+
+// --- Units Rendering ---
+function renderUnits(ph) {
+    const unitContainer = document.getElementById('unitOptionsContainer');
+    unitContainer.innerHTML = '';
+
+    const units = {
+        'Phase 2': [
+            {id:'Type A', desc:"25'x50' (53' Park)"}, {id:'Type A1', desc:"25'x50' (43' Park)"},
+            {id:'Type B', desc:"25'x40' (53' Park)"}, {id:'Type B1', desc:"25'x40' (43' Park)"}
+        ],
+        'Phase 3': [
+            {id:'Type D', desc:"20'x40'"}, {id:'Type E', desc:"15'x40'"}
+        ],
+        'Phase 1': [], 'Phase 4': []
     };
 
-    // --- Utils ---
-    function getCleanVal(id) { return parseFloat(document.getElementById(id).value.replace(/,/g, '')) || 0; }
-    function fmtNum(n) { return Math.round(n).toLocaleString('en-US'); }
-    function fmtLakhs(n) {
-        if(n===0) return "0 Ks";
-        return n >= 100000 ? (n/100000).toFixed(2).replace(/\.00$/,'') + " Lakhs" : fmtNum(n) + " Ks";
-    }
-    function updateDisplay(id, n) {
-        const el = document.getElementById(id);
-        if(el) el.textContent = fmtNum(n);
-        const lId = id + "Lakhs";
-        if(document.getElementById(lId)) document.getElementById(lId).textContent = fmtLakhs(n);
-    }
-    function formatInput(el, val) {
-        let n = val !== undefined ? val : parseFloat(el.value.replace(/,/g, ''));
-        if(!isNaN(n)) el.value = Math.round(n).toLocaleString('en-US');
-    }
-    function addMonths(i) {
-        const d = new Date(); d.setMonth(d.getMonth()+i);
-        return d.toLocaleDateString('en-US', {month:'short', year:'numeric'});
-    }
-    function getMonthsUntil(d) {
-        const now = new Date(); const t = new Date(d);
-        return Math.max(0, (t.getFullYear()-now.getFullYear())*12 + (t.getMonth()-now.getMonth()));
-    }
+    if(!units[ph]) return;
 
-    // --- State & Config ---
-    const planConfig = {
-        'Phase 2': { target: '2027-04-30', lbl: 'Apr 2027', CashDown: {dp:30,dpMo:3,bal:70,dyn:true}, Mortgage:{dp:30,dpMo:3,bal:70,yr:15,r:13}, SpecialDeveloper:{disabled:true} },
-        'Phase 3': { target: '2026-09-30', lbl: 'Sep 2026', CashDown: {dp:30,dpMo:3,bal:70,dyn:true}, SpecialDeveloper:{dp:50,dpMo:1,bal:50,yr:15,r:15,split:true,s1:10,s1m:1,s2:40,dyn:true}, Mortgage:{dp:30,dpMo:3,bal:70,yr:15,r:13} }
-    };
+    units[ph].forEach((u, idx) => {
+       unitContainer.innerHTML += `
+       <label class="selector-label text-center p-2 rounded-lg border-2 bg-white ${idx===0?'active border-blue-500':''}">
+            <input class="radio-hidden" name="unitType" type="radio" value="${u.id}" ${idx===0?'checked':''}>
+            <span class="block font-bold text-sm text-gray-800">${u.id}</span>
+            <span class="text-[10px] text-gray-500">${u.desc}</span>
+       </label>`; 
+    });
 
-    // --- Units Rendering ---
-    function renderUnits(ph) {
-        const unitContainer = document.getElementById('unitOptionsContainer');
-        unitContainer.innerHTML = '';
+    // Bind listeners
+    document.querySelectorAll('input[name="unitType"]').forEach(el => el.addEventListener('change', (e) => {
+        visualUpdate('unitType'); calculate();
+    }));
+}
 
-        const units = {
-            'Phase 2': [
-                {id:'Type A', desc:"25'x50' (53' Park)"}, {id:'Type A1', desc:"25'x50' (43' Park)"},
-                {id:'Type B', desc:"25'x40' (53' Park)"}, {id:'Type B1', desc:"25'x40' (43' Park)"}
-            ],
-            'Phase 3': [
-                {id:'Type D', desc:"20'x40'"}, {id:'Type E', desc:"15'x40'"}
-            ],
-            'Phase 1': [], 'Phase 4': []
+// --- Core Calculation ---
+function calculate() {
+    const phEl = document.querySelector('input[name="projectPhase"]:checked');
+    if(!phEl) return;
+    const ph = phEl.value;
+    const typeEl = document.querySelector('input[name="unitType"]:checked');
+    if(!typeEl) return;
+    const type = typeEl.value;
+
+    // Pricing
+    const u = unitData[type];
+    const base = u ? u.base : 0;
+    let add = 0;
+
+    const facingEl = document.querySelector('input[name="unitFacing"]:checked');
+    if(facingEl && facingEl.value === 'East') add += (u ? u.east : 0);
+
+    const plotEl = document.querySelector('input[name="premiumPlot"]:checked');
+    if(plotEl) {
+        const plot = plotEl.value;
+
+        // Grouped corner prices
+        const cornerPricesByTypeGroup = {
+            group1: { corner: 100000000, secondCorner: 50000000 }, // A, A1, B, B1
+            group2: { corner: 90000000, secondCorner: 70000000 },  // D
+            group3: { corner: 70000000, secondCorner: 30000000 },  // E
         };
 
-        if(!units[ph]) return;
+        let cornerPrice = 0, secondCornerPrice = 0;
+        if(['Type A','Type A1','Type B','Type B1'].includes(type)) {
+            cornerPrice = cornerPricesByTypeGroup.group1.corner;
+            secondCornerPrice = cornerPricesByTypeGroup.group1.secondCorner;
+        } else if(type === 'Type D') {
+            cornerPrice = cornerPricesByTypeGroup.group2.corner;
+            secondCornerPrice = cornerPricesByTypeGroup.group2.secondCorner;
+        } else if(type === 'Type E') {
+            cornerPrice = cornerPricesByTypeGroup.group3.corner;
+            secondCornerPrice = cornerPricesByTypeGroup.group3.secondCorner;
+        }
 
-        units[ph].forEach((u, idx) => {
-           unitContainer.innerHTML += `
-           <label class="selector-label text-center p-2 rounded-lg border-2 bg-white ${idx===0?'active border-blue-500':''}">
-                <input class="radio-hidden" name="unitType" type="radio" value="${u.id}" ${idx===0?'checked':''}>
-                <span class="block font-bold text-sm text-gray-800">${u.id}</span>
-                <span class="text-[10px] text-gray-500">${u.desc}</span>
-           </label>`; 
-        });
-
-        // Bind listeners
-        document.querySelectorAll('input[name="unitType"]').forEach(el => el.addEventListener('change', (e) => {
-            visualUpdate('unitType'); calculate();
-        }));
+        if(plot === 'Corner') add += cornerPrice;
+        else if(plot === 'Second Corner') add += secondCornerPrice;
     }
 
-    // --- Core Calculation ---
-    function calculate() {
-        const phEl = document.querySelector('input[name="projectPhase"]:checked');
-        if(!phEl) return;
-        const ph = phEl.value;
-        const typeEl = document.querySelector('input[name="unitType"]:checked');
-        if(!typeEl) return;
-        const type = typeEl.value;
+    const total = base + add;
 
-        // Pricing
-        const u = unitData[type];
-        const base = u ? u.base : 0;
-        let add = 0;
-        
-        const facingEl = document.querySelector('input[name="unitFacing"]:checked');
-        if(facingEl && facingEl.value === 'East') add += (u ? u.east : 0);
-        
-        const plotEl = document.querySelector('input[name="premiumPlot"]:checked');
-        if(plotEl) {
-            const plot = plotEl.value;
+    updateDisplay('basePriceSummary', base);
+    updateDisplay('totalAppliedPremiumSummary', add);
+    updateDisplay('finalContractPrice', total);
 
-            // Define group prices for corner & second corner
-            const cornerPricesByTypeGroup = {
-                group1: { corner: 100000000, secondCorner: 50000000 }, // A, A1, B, B1
-                group2: { corner: 90000000, secondCorner: 70000000 },  // D
-                group3: { corner: 70000000, secondCorner: 30000000 },  // E
-            };
+    document.getElementById('homePrice').value = fmtNum(total);
 
-            // Determine which group the type belongs to
-            let cornerPrice = 0;
-            let secondCornerPrice = 0;
-            if(['Type A','Type A1','Type B','Type B1'].includes(type)) {
-                cornerPrice = cornerPricesByTypeGroup.group1.corner;
-                secondCornerPrice = cornerPricesByTypeGroup.group1.secondCorner;
-            }
-            else if(type === 'Type D') {
-                cornerPrice = cornerPricesByTypeGroup.group2.corner;
-                secondCornerPrice = cornerPricesByTypeGroup.group2.secondCorner;
-            }
-            else if(type === 'Type E') {
-                cornerPrice = cornerPricesByTypeGroup.group3.corner;
-                secondCornerPrice = cornerPricesByTypeGroup.group3.secondCorner;
-            }
+    // Plan Logic
+    const planEl = document.querySelector('input[name="paymentPlan"]:checked');
+    if(!planEl) return;
+    const plan = planEl.value;
 
-            if(plot === 'Corner') add += cornerPrice;
-            else if(plot === 'Second Corner') add += secondCornerPrice;
+    const book = getCleanVal('bookingFee');
+    const dpPct = parseFloat(document.getElementById('downPaymentPercent').value) || 0;
+    const dpAmt = total * (dpPct/100);
+
+    if(document.activeElement.id !== 'downPaymentAmount') {
+        document.getElementById('downPaymentAmount').value = Math.round(dpAmt).toLocaleString('en-US');
+    }
+
+    const balDp = dpAmt - book;
+
+    // Configs
+    const conf = planConfig[ph];
+    const def = conf[plan];
+
+    const moRem = getMonthsUntil(conf.target);
+    document.getElementById('handoverDateBadge').textContent = `HO: ${conf.lbl} (~${moRem}m)`;
+
+    let dpMo = 0, balMo = 0, rate = 0;
+    if(plan === 'CashDown') {
+        dpMo = parseInt(document.getElementById('cashDownDpMonths').value);
+        if(def && def.dyn) {
+            balMo = moRem - dpMo; 
+            document.getElementById('cashDownBalMonths').value = balMo > 0 ? balMo : 1;
         }
-        
-        const total = base + add;
-        
-        updateDisplay('basePriceSummary', base);
-        updateDisplay('totalAppliedPremiumSummary', add);
-        updateDisplay('finalContractPrice', total);
+        else balMo = parseInt(document.getElementById('cashDownBalMonths').value);
+        if(balMo < 1) balMo = 1;
+    } else if(plan === 'SpecialDeveloper') {
+        dpMo = parseInt(document.getElementById('dpMonths').value);
+        balMo = parseInt(document.getElementById('constructionMonths').value);
+        rate = parseFloat(document.getElementById('interestRate').value);
+    } else {
+        dpMo = parseInt(document.getElementById('bankLoanDisbursementMonths').value);
+        balMo = parseInt(document.getElementById('bankLoanTermYears').value) * 12;
+        rate = parseFloat(document.getElementById('bankInterestRate').value);
+    }
 
-        // Plan Logic
-        const planEl = document.querySelector('input[name="paymentPlan"]:checked');
-        if(!planEl) return;
-        const plan = planEl.value;
-        
-        const book = getCleanVal('bookingFee');
-        const dpPct = parseFloat(document.getElementById('downPaymentPercent').value) || 0;
-        const dpAmt = total * (dpPct/100);
-        
-        // Sync DP Amount input display (avoid recursive loop if editing)
-        if(document.activeElement.id !== 'downPaymentAmount') {
-            document.getElementById('downPaymentAmount').value = Math.round(dpAmt).toLocaleString('en-US');
+    // Render Summary
+    document.getElementById('summaryDpPercent').textContent = dpPct;
+    updateDisplay('summaryTotalDownPayment', dpAmt);
+    updateDisplay('summaryBookingFee', book);
+    updateDisplay('summaryBalanceDown', balDp);
+    document.getElementById('summaryDpTerms').textContent = dpMo;
+
+    // SHOW / HIDE special rows correctly per plan
+    if(plan === 'SpecialDeveloper') {
+        document.getElementById('rowStandardBalance').classList.add('hidden');
+        document.getElementById('rowSpecialStage1').classList.remove('hidden');
+        document.getElementById('rowSpecialStage2').classList.remove('hidden');
+    } else {
+        // CashDown and Mortgage
+        document.getElementById('rowStandardBalance').classList.remove('hidden');
+        document.getElementById('rowSpecialStage1').classList.add('hidden');
+        document.getElementById('rowSpecialStage2').classList.add('hidden');
+    }
+
+    // Render Schedule
+    let schedHtml = '';
+    let curBal = total;
+
+    // Booking row
+    schedHtml += `<tr class="border-b"><td class="px-3 py-2 text-gray-400">0</td><td class="px-3 py-2">Now</td><td class="px-3 py-2 font-medium">Booking</td><td class="px-3 py-2 text-right font-bold text-indigo-600">${fmtNum(book)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - book)}</td></tr>`;
+    curBal -= book;
+
+    if(plan === 'SpecialDeveloper' && def && def.split) {
+        const s1 = (total*0.1)-book;
+        updateDisplay('summarySpecialStage1Amount', s1>0?s1:0);
+
+        const s2 = total*0.4;
+        let s2Mo = moRem - 1; if(s2Mo<1)s2Mo=1;
+        updateDisplay('summarySpecialStage2Amount', s2);
+        document.getElementById('summarySpecialStage2Terms').textContent = `${s2Mo} Mo`;
+        updateDisplay('summarySpecialStage2Monthly', s2/s2Mo);
+
+        schedHtml += `<tr class="border-b"><td class="px-3 py-2">1</td><td class="px-3 py-2">${getLabelForMonth(1)}</td><td class="px-3 py-2">10% Bal</td><td class="px-3 py-2 text-right font-bold">${fmtNum(s1)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - s1)}</td></tr>`;
+        curBal -= s1;
+
+        const s2m = s2/s2Mo;
+        for(let i=1; i<=s2Mo; i++) {
+            schedHtml += `<tr class="border-b bg-yellow-50"><td class="px-3 py-2">${1+i}</td><td class="px-3 py-2">${getLabelForMonth(1+i)}</td><td class="px-3 py-2">Interim</td><td class="px-3 py-2 text-right font-bold">${fmtNum(s2m)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - s2m)}</td></tr>`;
+            curBal -= s2m;
         }
 
-        const balDp = dpAmt - book;
-        
-        // Configs
-        const conf = planConfig[ph];
-        const def = conf[plan];
-        
-        const moRem = getMonthsUntil(conf.target);
-        document.getElementById('handoverDateBadge').textContent = `HO: ${conf.lbl} (~${moRem}m)`;
-
-        let dpMo = 0, balMo = 0, rate = 0;
-        
-        if(plan === 'CashDown') {
-            dpMo = parseInt(document.getElementById('cashDownDpMonths').value);
-            // Dynamic lock
-            if(def && def.dyn) {
-                balMo = moRem - dpMo; 
-                document.getElementById('cashDownBalMonths').value = balMo > 0 ? balMo : 1;
-            }
-            else balMo = parseInt(document.getElementById('cashDownBalMonths').value);
-            if(balMo < 1) balMo = 1;
-        } else if(plan === 'SpecialDeveloper') {
-            dpMo = parseInt(document.getElementById('dpMonths').value);
-            balMo = parseInt(document.getElementById('constructionMonths').value);
-            rate = parseFloat(document.getElementById('interestRate').value);
+        let lBal = curBal;
+        let mRate = rate/100/12;
+        let pmt;
+        if(mRate === 0) {
+            pmt = lBal / balMo;
         } else {
-            dpMo = parseInt(document.getElementById('bankLoanDisbursementMonths').value);
-            balMo = parseInt(document.getElementById('bankLoanTermYears').value) * 12;
-            rate = parseFloat(document.getElementById('bankInterestRate').value);
+            pmt = lBal * (mRate * Math.pow(1+mRate, balMo))/(Math.pow(1+mRate, balMo)-1);
+        }
+        let totInt = (pmt*balMo)-lBal;
+
+        updateDisplay('summaryPrincipal', lBal);
+        updateDisplay('summaryMonthlyLoan', pmt);
+        updateDisplay('summaryTotalInterest', totInt);
+        updateDisplay('summaryTotalOutlay', total+totInt);
+        document.getElementById('summaryLoanTerms').textContent = `${Math.floor(balMo/12)} Yr @ ${rate}%`;
+        document.getElementById('summaryLoanType').textContent = "Fortune Plan";
+
+        for(let i=1; i<=balMo; i++) {
+            schedHtml += `<tr class="border-b bg-green-50"><td class="px-3 py-2">${1+s2Mo+i}</td><td class="px-3 py-2">${getLabelForMonth(1+s2Mo+i)}</td><td class="px-3 py-2">Loan PMT</td><td class="px-3 py-2 text-right font-bold">${fmtNum(pmt)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - pmt)}</td></tr>`;
+            curBal -= pmt;
         }
 
-        // Render Summary
-        document.getElementById('summaryDpPercent').textContent = dpPct;
-        updateDisplay('summaryTotalDownPayment', dpAmt);
-        updateDisplay('summaryBookingFee', book);
-        updateDisplay('summaryBalanceDown', balDp);
-        document.getElementById('summaryDpTerms').textContent = dpMo;
-        
-        // Render Schedule
-        let schedHtml = '';
-        let curBal = total;
-        // Booking
-        schedHtml += `<tr class="border-b"><td class="px-3 py-2 text-gray-400">0</td><td class="px-3 py-2">Now</td><td class="px-3 py-2 font-medium">Booking</td><td class="px-3 py-2 text-right font-bold text-indigo-600">${fmtNum(book)}</td></tr>`;
-        curBal -= book;
+    } else {
+        // CashDown or Mortgage
+        const dpMth = balDp/dpMo;
+        updateDisplay('summaryMonthlyCash', dpMth);
 
-        if(plan === 'SpecialDeveloper' && def && def.split) {
-            document.getElementById('rowStandardBalance').classList.add('hidden');
-            document.getElementById('rowSpecialStage1').classList.remove('hidden');
-            document.getElementById('rowSpecialStage2').classList.remove('hidden');
-            
-            const s1 = (total*0.1)-book;
-            updateDisplay('summarySpecialStage1Amount', s1>0?s1:0);
-            
-            const s2 = total*0.4;
-            let s2Mo = moRem - 1; if(s2Mo<1)s2Mo=1;
-            updateDisplay('summarySpecialStage2Amount', s2);
-            document.getElementById('summarySpecialStage2Terms').textContent = `${s2Mo} Mo`;
-            updateDisplay('summarySpecialStage2Monthly', s2/s2Mo);
-            
-            // Schedule
-            schedHtml += `<tr class="border-b"><td class="px-3 py-2">1</td><td class="px-3 py-2">${addMonths(1)}</td><td class="px-3 py-2">10% Bal</td><td class="px-3 py-2 text-right font-bold">${fmtNum(s1)}</td></tr>`;
-            curBal -= s1;
-            const s2m = s2/s2Mo;
-            for(let i=1; i<=s2Mo; i++) {
-                schedHtml += `<tr class="border-b bg-yellow-50"><td class="px-3 py-2">${1+i}</td><td class="px-3 py-2">${addMonths(1+i)}</td><td class="px-3 py-2">Interim</td><td class="px-3 py-2 text-right font-bold">${fmtNum(s2m)}</td></tr>`;
-                curBal -= s2m;
+        for(let i=1; i<=dpMo; i++) {
+            schedHtml += `<tr class="border-b"><td class="px-3 py-2">${i}</td><td class="px-3 py-2">${getLabelForMonth(i)}</td><td class="px-3 py-2">DP Inst.</td><td class="px-3 py-2 text-right font-bold">${fmtNum(dpMth)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - dpMth)}</td></tr>`;
+            curBal -= dpMth;
+        }
+
+        updateDisplay('summaryPrincipal', curBal);
+        let pmt = 0, totInt = 0;
+
+        if(plan === 'CashDown') {
+            pmt = curBal/balMo;
+            document.getElementById('summaryLoanType').textContent = "Construction";
+            document.getElementById('summaryLoanTerms').textContent = `${balMo} Mo @ 0%`;
+            updateDisplay('summaryMonthlyLoan', pmt);
+            updateDisplay('summaryTotalInterest', 0);
+            updateDisplay('summaryTotalOutlay', total);
+
+            for(let i=1; i<=balMo; i++) {
+                schedHtml += `<tr class="border-b bg-green-50"><td class="px-3 py-2">${dpMo+i}</td><td class="px-3 py-2">${getLabelForMonth(dpMo+i)}</td><td class="px-3 py-2">Const. Inst.</td><td class="px-3 py-2 text-right font-bold">${fmtNum(pmt)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - pmt)}</td></tr>`;
+                curBal -= pmt;
             }
-            
-            let lBal = curBal;
+        } else {
             let mRate = rate/100/12;
-            let pmt;
-            // Fix: handle zero interest
             if(mRate === 0) {
-                pmt = lBal / balMo;
+                pmt = curBal / balMo;
             } else {
-                pmt = lBal * (mRate * Math.pow(1+mRate, balMo))/(Math.pow(1+mRate, balMo)-1);
+                pmt = curBal * (mRate * Math.pow(1+mRate, balMo))/(Math.pow(1+mRate, balMo)-1);
             }
-            let totInt = (pmt*balMo)-lBal;
-            
-            updateDisplay('summaryPrincipal', lBal);
+            totInt = (pmt*balMo)-curBal;
+
+            document.getElementById('summaryLoanType').textContent = "Bank Loan";
+            document.getElementById('summaryLoanTerms').textContent = `${Math.floor(balMo/12)} Yr @ ${rate}%`;
             updateDisplay('summaryMonthlyLoan', pmt);
             updateDisplay('summaryTotalInterest', totInt);
             updateDisplay('summaryTotalOutlay', total+totInt);
-            document.getElementById('summaryLoanTerms').textContent = `${Math.floor(balMo/12)} Yr @ ${rate}%`;
-            document.getElementById('summaryLoanType').textContent = "Fortune Plan";
-            
-            for(let i=1; i<=balMo; i++) {
-                schedHtml += `<tr class="border-b bg-green-50"><td class="px-3 py-2">${1+s2Mo+i}</td><td class="px-3 py-2">${addMonths(1+s2Mo+i)}</td><td class="px-3 py-2">Loan PMT</td><td class="px-3 py-2 text-right font-bold">${fmtNum(pmt)}</td></tr>`;
-            }
 
-        } else {
-            document.getElementById('rowStandardBalance').classList.remove('hidden');
-            document.getElementById('rowSpecialStage1').classList.add('hidden');
-            document.getElementById('rowSpecialStage2').classList.add('hidden');
-            
-            const dpMth = balDp/dpMo;
-            updateDisplay('summaryMonthlyCash', dpMth);
-            
-            for(let i=1; i<=dpMo; i++) {
-                schedHtml += `<tr class="border-b"><td class="px-3 py-2">${i}</td><td class="px-3 py-2">${addMonths(i)}</td><td class="px-3 py-2">DP Inst.</td><td class="px-3 py-2 text-right font-bold">${fmtNum(dpMth)}</td></tr>`;
-                curBal -= dpMth;
-            }
-            
-            updateDisplay('summaryPrincipal', curBal);
-            let pmt = 0, totInt = 0;
-            
-            if(plan === 'CashDown') {
-                pmt = curBal/balMo;
-                document.getElementById('summaryLoanType').textContent = "Construction";
-                document.getElementById('summaryLoanTerms').textContent = `${balMo} Mo @ 0%`;
-                updateDisplay('summaryMonthlyLoan', pmt);
-                updateDisplay('summaryTotalInterest', 0);
-                updateDisplay('summaryTotalOutlay', total);
-                
-                for(let i=1; i<=balMo; i++) {
-                    schedHtml += `<tr class="border-b bg-green-50"><td class="px-3 py-2">${dpMo+i}</td><td class="px-3 py-2">${addMonths(dpMo+i)}</td><td class="px-3 py-2">Const. Inst.</td><td class="px-3 py-2 text-right font-bold">${fmtNum(pmt)}</td></tr>`;
-                }
-            } else {
-                let mRate = rate/100/12;
-                // Fix: handle zero interest
-                if(mRate === 0) {
-                    pmt = curBal / balMo;
-                } else {
-                    pmt = curBal * (mRate * Math.pow(1+mRate, balMo))/(Math.pow(1+mRate, balMo)-1);
-                }
-                totInt = (pmt*balMo)-curBal;
-                
-                document.getElementById('summaryLoanType').textContent = "Bank Loan";
-                document.getElementById('summaryLoanTerms').textContent = `${Math.floor(balMo/12)} Yr @ ${rate}%`;
-                updateDisplay('summaryMonthlyLoan', pmt);
-                updateDisplay('summaryTotalInterest', totInt);
-                updateDisplay('summaryTotalOutlay', total+totInt);
-                
-                schedHtml += `<tr class="bg-indigo-100 border-b border-indigo-200"><td class="px-3 py-3 font-bold text-indigo-800" colspan="3">Bank Mortgage EMI (After Approval)</td><td class="px-3 py-3 text-right font-black text-indigo-800">${fmtNum(pmt)}/mo</td></tr>`;
-            }
+            schedHtml += `<tr class="bg-indigo-100 border-b border-indigo-200"><td class="px-3 py-3 font-bold text-indigo-800" colspan="3">Bank Mortgage EMI (After Approval)</td><td class="px-3 py-3 text-right font-black text-indigo-800">${fmtNum(pmt)}/mo</td><td></td><td></td><td></td></tr>`;
         }
-        
-        document.getElementById('scheduleBody').innerHTML = schedHtml;
     }
 
-    // --- Visual Updates ---
-    function visualUpdate(name) {
-        document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
-            const lbl = r.parentElement;
-            if(r.checked){ lbl.classList.add('active','border-blue-500'); lbl.classList.remove('bg-white','border-gray-200'); }
-            else { lbl.classList.remove('active','border-blue-500'); lbl.classList.add('bg-white','border-gray-200'); }
-        });
-    }
+    document.getElementById('scheduleBody').innerHTML = schedHtml;
+}
 
-    // --- EXPORT LOGIC ---
-    async function prepareAndExport() {
+// --- Visual Updates ---
+function visualUpdate(name) {
+    document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+        const lbl = r.parentElement;
+        if(r.checked){ lbl.classList.add('active','border-blue-500'); lbl.classList.remove('bg-white','border-gray-200'); }
+        else { lbl.classList.remove('active','border-blue-500'); lbl.classList.add('bg-white','border-gray-200'); }
+    });
+}
+
+// --- EXPORT LOGIC ---
+async function prepareAndExport() {
     const btn = document.getElementById('generateImgBtn');
     const btnText = document.getElementById('genBtnText');
     btn.disabled = true;
     btnText.textContent = "Generating...";
 
-    // 1. Fill Hidden Container
+    // Fill Hidden Container
     document.getElementById('printDate').innerText = new Date().toLocaleDateString();
     document.getElementById('printName').innerText = document.getElementById('exportName').value || 'Guest';
 
-    // Export phone as plain text, preserving leading zeros, no changes
+    // Preserve phone formatting
     let phoneRaw = document.getElementById('exportPhone').value || '-';
-    phoneRaw = phoneRaw.trim(); // Keep exactly as typed
+    phoneRaw = phoneRaw.trim();
     document.getElementById('printPhone').innerText = phoneRaw || '-';
 
     document.getElementById('printUnit').innerText = document.getElementById('exportUnit').value || '-';
@@ -820,19 +832,16 @@ if ('serviceWorker' in navigator) {
         document.getElementById('printPlan').innerText = planName;
     }
 
-    // Clone Schedule
     document.getElementById('printScheduleBody').innerHTML = document.getElementById('scheduleBody').innerHTML;
 
-    // 2. Render
     const container = document.getElementById('exportContainer');
-
     container.style.opacity = '1';
     container.style.zIndex = '-50';
     container.style.left = '0px'; 
     container.style.top = '0px';
 
     try {
-        await new Promise(resolve => setTimeout(resolve, 500)); // Paint delay
+        await new Promise(resolve => setTimeout(resolve, 500));
         const canvas = await html2canvas(container, { 
             scale: 2, 
             useCORS: true, 
@@ -858,24 +867,23 @@ if ('serviceWorker' in navigator) {
     }
 }
 
-    function openExportModal() { 
-        document.getElementById('exportModal').classList.remove('hidden'); 
-        document.getElementById('exportModal').classList.add('flex');
-    }
-    function closeExportModal() { 
-        document.getElementById('exportModal').classList.add('hidden'); 
-        document.getElementById('exportModal').classList.remove('flex');
-    }
-    function toggleSchedule() {
-        const c = document.getElementById('scheduleContainer');
-        const i = document.getElementById('scheduleToggleIcon');
-        c.classList.toggle('hidden');
-        i.innerText = c.classList.contains('hidden') ? 'expand_more' : 'expand_less';
-    }
+function openExportModal() { 
+    document.getElementById('exportModal').classList.remove('hidden'); 
+    document.getElementById('exportModal').classList.add('flex');
+}
+function closeExportModal() { 
+    document.getElementById('exportModal').classList.add('hidden'); 
+    document.getElementById('exportModal').classList.remove('flex');
+}
+function toggleSchedule() {
+    const c = document.getElementById('scheduleContainer');
+    const i = document.getElementById('scheduleToggleIcon');
+    c.classList.toggle('hidden');
+    i.innerText = c.classList.contains('hidden') ? 'expand_more' : 'expand_less';
+}
 
-    // --- Init ---
-    window.addEventListener('load', () => {
-    // Listeners for inputs
+// --- Init ---
+window.addEventListener('load', () => {
     document.querySelectorAll('input').forEach(i => {
         i.addEventListener('input', (e) => {
             if(e.target.id === 'downPaymentAmount') {
@@ -888,7 +896,6 @@ if ('serviceWorker' in navigator) {
         });
     });
 
-    // Auto prepend single quote to phone input to preserve formatting
     const phoneInput = document.getElementById('exportPhone');
     phoneInput.addEventListener('input', () => {
         let val = phoneInput.value;
@@ -897,69 +904,65 @@ if ('serviceWorker' in navigator) {
         }
     });
 
-        // Specific listeners
-        document.getElementById('downPaymentAmount').addEventListener('change', (e) => {
-            const val = getCleanVal('downPaymentAmount');
-            const total = parseFloat(document.getElementById('finalContractPrice').textContent.replace(/,/g,''))||0;
-            if(total>0) document.getElementById('downPaymentPercent').value = (val/total*100).toFixed(2);
-            formatInput(e.target);
-            calculate();
-        });
-        document.getElementById('downPaymentPercent').addEventListener('input', () => {
-             const pct = parseFloat(document.getElementById('downPaymentPercent').value)||0;
-             const total = parseFloat(document.getElementById('finalContractPrice').textContent.replace(/,/g,''))||0;
-             formatInput(document.getElementById('downPaymentAmount'), total*(pct/100));
-        });
+    document.getElementById('downPaymentAmount').addEventListener('change', (e) => {
+        const val = getCleanVal('downPaymentAmount');
+        const total = parseFloat(document.getElementById('finalContractPrice').textContent.replace(/,/g,''))||0;
+        if(total>0) document.getElementById('downPaymentPercent').value = (val/total*100).toFixed(2);
+        formatInput(e.target);
+        calculate();
+    });
+    document.getElementById('downPaymentPercent').addEventListener('input', () => {
+         const pct = parseFloat(document.getElementById('downPaymentPercent').value)||0;
+         const total = parseFloat(document.getElementById('finalContractPrice').textContent.replace(/,/g,''))||0;
+         formatInput(document.getElementById('downPaymentAmount'), total*(pct/100));
+    });
 
-        // Radio Groups
-        ['projectPhase','unitType','unitFacing','premiumPlot','paymentPlan'].forEach(g => {
-            document.querySelectorAll(`input[name="${g}"]`).forEach(el => {
-                el.addEventListener('change', () => {
-                    visualUpdate(g);
-                    if(g==='projectPhase') {
-                        renderUnits(el.value);
-                        
-                        // Plan Disable Logic
-                        const c = planConfig[el.value];
-                        const d = document.getElementById('planDeveloper');
-                        if(c.SpecialDeveloper.disabled) {
-                            d.disabled=true; d.parentElement.classList.add('opacity-50','cursor-not-allowed');
-                            if(d.checked) { document.getElementById('planMortgage').checked=true; visualUpdate('paymentPlan'); }
-                        } else {
-                            d.disabled=false; d.parentElement.classList.remove('opacity-50','cursor-not-allowed');
-                        }
+    ['projectPhase','unitType','unitFacing','premiumPlot','paymentPlan'].forEach(g => {
+        document.querySelectorAll(`input[name="${g}"]`).forEach(el => {
+            el.addEventListener('change', () => {
+                visualUpdate(g);
+                if(g==='projectPhase') {
+                    renderUnits(el.value);
+                    const c = planConfig[el.value];
+                    const d = document.getElementById('planDeveloper');
+                    if(c.SpecialDeveloper.disabled) {
+                        d.disabled=true; d.parentElement.classList.add('opacity-50','cursor-not-allowed');
+                        if(d.checked) { document.getElementById('planMortgage').checked=true; visualUpdate('paymentPlan'); }
+                    } else {
+                        d.disabled=false; d.parentElement.classList.remove('opacity-50','cursor-not-allowed');
                     }
-                    if(g==='paymentPlan') {
-                        const pl = document.querySelector('input[name="paymentPlan"]:checked').value;
-                        document.getElementById('cashDownDetails').classList.add('hidden');
-                        document.getElementById('developerPlanDetails').classList.add('hidden');
-                        document.getElementById('mortgagePlanDetails').classList.add('hidden');
-                        if(pl==='CashDown') document.getElementById('cashDownDetails').classList.remove('hidden');
-                        if(pl==='SpecialDeveloper') document.getElementById('developerPlanDetails').classList.remove('hidden');
-                        if(pl==='Mortgage') document.getElementById('mortgagePlanDetails').classList.remove('hidden');
-                        
-                        const ph = document.querySelector('input[name="projectPhase"]:checked').value;
-                        const def = planConfig[ph]?.[pl];
-                        if(def) {
-                            document.getElementById('downPaymentPercent').value = def.dp;
-                            document.getElementById('downPaymentPercent').dispatchEvent(new Event('input'));
-                        }
+                }
+                if(g==='paymentPlan') {
+                    const pl = document.querySelector('input[name="paymentPlan"]:checked').value;
+                    document.getElementById('cashDownDetails').classList.add('hidden');
+                    document.getElementById('developerPlanDetails').classList.add('hidden');
+                    document.getElementById('mortgagePlanDetails').classList.add('hidden');
+                    if(pl==='CashDown') document.getElementById('cashDownDetails').classList.remove('hidden');
+                    if(pl==='SpecialDeveloper') document.getElementById('developerPlanDetails').classList.remove('hidden');
+                    if(pl==='Mortgage') document.getElementById('mortgagePlanDetails').classList.remove('hidden');
+
+                    const ph = document.querySelector('input[name="projectPhase"]:checked').value;
+                    const def = planConfig[ph]?.[pl];
+                    if(def) {
+                        document.getElementById('downPaymentPercent').value = def.dp;
+                        document.getElementById('downPaymentPercent').dispatchEvent(new Event('input'));
                     }
-                    calculate();
-                });
+                }
+                calculate();
             });
         });
-        
-        document.getElementById('togglePremiumPricingBtn').addEventListener('click', ()=>document.getElementById('premiumPricingInputs').classList.toggle('hidden'));
-
-        // Init trigger
-        setTimeout(() => {
-            const p2 = document.getElementById('phase2');
-            if(p2) { 
-                p2.checked=true; p2.dispatchEvent(new Event('change')); 
-            }
-        }, 100);
     });
+
+    document.getElementById('togglePremiumPricingBtn').addEventListener('click', ()=>document.getElementById('premiumPricingInputs').classList.toggle('hidden'));
+
+    // Initial trigger
+    setTimeout(() => {
+        const p2 = document.getElementById('phase2');
+        if(p2) { 
+            p2.checked=true; p2.dispatchEvent(new Event('change')); 
+        }
+    }, 100);
+});
 
 </script>
 
