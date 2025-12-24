@@ -344,7 +344,7 @@ c.prototype.A=function(f,a){function d(){switch(e.h){case 1:f(e.i);break;case 2:
                             </tr>
                             <!-- Split Logic Rows -->
                             <tr class="hidden bg-yellow-50" id="rowSpecialStage1">
-                                <td class="px-6 py-3 pl-8 text-gray-700 font-semibold">Initial 10% (Net)</td>
+                                <td class="px-6 py-3 pl-8 text-gray-700 font-semibold">Initial 50% (Net)</td>
                                 <td class="px-6 py-3 text-right font-bold text-gray-900" id="summarySpecialStage1Amount">0</td>
                                 <td class="px-6 py-3 text-right text-gray-600 hidden sm:table-cell">Month 1</td>
                                 <td class="px-6 py-3 text-right text-gray-500">-</td>
@@ -364,7 +364,7 @@ c.prototype.A=function(f,a){function d(){switch(e.h){case 1:f(e.i);break;case 2:
                             </tr>
                             <!-- Stage 2 -->
                             <tr class="bg-green-50/50">
-                                <td class="px-6 py-2 text-xs font-bold text-green-800 uppercase tracking-wide" colspan="4">Stage 2: <span id="summaryLoanType">Financing</span> (<span id="summaryLoanPercent">70</span>%)</td>
+                                <td class="px-6 py-2 text-xs font-bold text-green-800 uppercase tracking-wide" colspan="4">Stage 2: <span id="summaryLoanType">Financing</span> (<span id="summaryLoanPercent">50</span>%)</td>
                             </tr>
                             <tr>
                                 <td class="px-6 py-3 pl-8 text-gray-700 font-medium">Principal Amount</td>
@@ -492,9 +492,10 @@ c.prototype.A=function(f,a){function d(){switch(e.h){case 1:f(e.i);break;case 2:
         </table>
     </div>
     
-    <div class="mt-6 pt-4 border-t text-center">
-        <p class="text-xs text-gray-400">Indicative Calculation Only. Subject to Contract.</p>
-    </div>
+    <div class="mt-6 pt-4 border-t text-center text-xs text-gray-400 italic select-none">
+    <p>Calculation is for estimation only and subject to change.</p>
+    <p class="mt-1">Created by Thaw Zin @ Theo</p>
+</div>
 </div>
 
 <script>
@@ -546,9 +547,22 @@ function getMonthsUntil(d) {
 }
 
 // --- State & Config ---
+// Updated Phase 3 SpecialDeveloper to 50/50 split, split=false
 const planConfig = {
-    'Phase 2': { target: '2027-04-30', lbl: 'Apr 2027', CashDown: {dp:30,dpMo:3,bal:70,dyn:true}, Mortgage:{dp:30,dpMo:3,bal:70,yr:15,r:13}, SpecialDeveloper:{disabled:true} },
-    'Phase 3': { target: '2026-09-30', lbl: 'Sep 2026', CashDown: {dp:30,dpMo:3,bal:70,dyn:true}, SpecialDeveloper:{dp:50,dpMo:1,bal:50,yr:15,r:15,split:true,s1:10,s1m:1,s2:40,dyn:true}, Mortgage:{dp:30,dpMo:3,bal:70,yr:15,r:13} }
+    'Phase 2': { 
+        target: '2027-04-30', 
+        lbl: 'Apr 2027', 
+        CashDown: {dp:30,dpMo:3,bal:70,dyn:true}, 
+        Mortgage: {dp:30,dpMo:3,bal:70,yr:15,r:13}, 
+        SpecialDeveloper: {disabled:true} 
+    },
+    'Phase 3': { 
+        target: '2026-09-30', 
+        lbl: 'Sep 2026', 
+        CashDown: {dp:30,dpMo:3,bal:70,dyn:true}, 
+        SpecialDeveloper: {dp:50,dpMo:1,bal:50,yr:15,r:15,split:false,dyn:true}, // Changed split to false
+        Mortgage: {dp:30,dpMo:3,bal:70,yr:15,r:13} 
+    }
 };
 
 // --- Units Rendering ---
@@ -644,6 +658,11 @@ function calculate() {
     const book = getCleanVal('bookingFee');
     const dpPct = parseFloat(document.getElementById('downPaymentPercent').value) || 0;
     const dpAmt = total * (dpPct/100);
+    
+    // Update Stage 1 special row label with actual DP%
+    if(document.getElementById('rowSpecialStage1')) {
+        document.querySelector('#rowSpecialStage1 td:first-child').textContent = `Initial ${Math.round(dpPct)}% (Net)`;
+    }
 
     if(document.activeElement.id !== 'downPaymentAmount') {
         document.getElementById('downPaymentAmount').value = Math.round(dpAmt).toLocaleString('en-US');
@@ -678,7 +697,8 @@ function calculate() {
     }
 
     // Render Summary
-    document.getElementById('summaryDpPercent').textContent = dpPct;
+    document.getElementById('summaryDpPercent').textContent = Math.round(dpPct);
+    document.getElementById('summaryLoanPercent').textContent = Math.round(100 - dpPct);
     updateDisplay('summaryTotalDownPayment', dpAmt);
     updateDisplay('summaryBookingFee', book);
     updateDisplay('summaryBalanceDown', balDp);
@@ -704,47 +724,105 @@ function calculate() {
     schedHtml += `<tr class="border-b"><td class="px-3 py-2 text-gray-400">0</td><td class="px-3 py-2">Now</td><td class="px-3 py-2 font-medium">Booking</td><td class="px-3 py-2 text-right font-bold text-indigo-600">${fmtNum(book)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - book)}</td></tr>`;
     curBal -= book;
 
-    if(plan === 'SpecialDeveloper' && def && def.split) {
-        const s1 = (total*0.1)-book;
-        updateDisplay('summarySpecialStage1Amount', s1>0?s1:0);
+    if(plan === 'SpecialDeveloper' && def) {
+        if(def.split) {
+            // Existing split special plan logic (10% + 40% + loan)
+            const s1 = (total*0.1)-book;
+            updateDisplay('summarySpecialStage1Amount', s1>0?s1:0);
 
-        const s2 = total*0.4;
-        let s2Mo = moRem - 1; if(s2Mo<1)s2Mo=1;
-        updateDisplay('summarySpecialStage2Amount', s2);
-        document.getElementById('summarySpecialStage2Terms').textContent = `${s2Mo} Mo`;
-        updateDisplay('summarySpecialStage2Monthly', s2/s2Mo);
+            const s2 = total*0.4;
+            let s2Mo = moRem - 1; if(s2Mo<1)s2Mo=1;
+            updateDisplay('summarySpecialStage2Amount', s2);
+            document.getElementById('summarySpecialStage2Terms').textContent = `${s2Mo} Mo`;
+            updateDisplay('summarySpecialStage2Monthly', s2/s2Mo);
 
-        schedHtml += `<tr class="border-b"><td class="px-3 py-2">1</td><td class="px-3 py-2">${getLabelForMonth(1)}</td><td class="px-3 py-2">10% Bal</td><td class="px-3 py-2 text-right font-bold">${fmtNum(s1)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - s1)}</td></tr>`;
-        curBal -= s1;
+            schedHtml += `<tr class="border-b"><td class="px-3 py-2">1</td><td class="px-3 py-2">${getLabelForMonth(1)}</td><td class="px-3 py-2">10% Bal</td><td class="px-3 py-2 text-right font-bold">${fmtNum(s1)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - s1)}</td></tr>`;
+            curBal -= s1;
 
-        const s2m = s2/s2Mo;
-        for(let i=1; i<=s2Mo; i++) {
-            schedHtml += `<tr class="border-b bg-yellow-50"><td class="px-3 py-2">${1+i}</td><td class="px-3 py-2">${getLabelForMonth(1+i)}</td><td class="px-3 py-2">Interim</td><td class="px-3 py-2 text-right font-bold">${fmtNum(s2m)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - s2m)}</td></tr>`;
-            curBal -= s2m;
-        }
+            const s2m = s2/s2Mo;
+            for(let i=1; i<=s2Mo; i++) {
+                schedHtml += `<tr class="border-b bg-yellow-50"><td class="px-3 py-2">${1+i}</td><td class="px-3 py-2">${getLabelForMonth(1+i)}</td><td class="px-3 py-2">Interim</td><td class="px-3 py-2 text-right font-bold">${fmtNum(s2m)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - s2m)}</td></tr>`;
+                curBal -= s2m;
+            }
 
-        let lBal = curBal;
-        let mRate = rate/100/12;
-        let pmt;
-        if(mRate === 0) {
-            pmt = lBal / balMo;
+            let lBal = curBal;
+            let mRate = rate/100/12;
+            let pmt;
+            if(mRate === 0) {
+                pmt = lBal / balMo;
+            } else {
+                pmt = lBal * (mRate * Math.pow(1+mRate, balMo))/(Math.pow(1+mRate, balMo)-1);
+            }
+            let totInt = (pmt*balMo)-lBal;
+
+            updateDisplay('summaryPrincipal', lBal);
+            updateDisplay('summaryMonthlyLoan', pmt);
+            updateDisplay('summaryTotalInterest', totInt);
+            updateDisplay('summaryTotalOutlay', total+totInt);
+            document.getElementById('summaryLoanTerms').textContent = `${Math.floor(balMo/12)} Yr @ ${rate}%`;
+            document.getElementById('summaryLoanType').textContent = "Fortune Commercial City Special Plan";
+
+            for(let i=1; i<=balMo; i++) {
+                schedHtml += `<tr class="border-b bg-green-50"><td class="px-3 py-2">${1+s2Mo+i}</td><td class="px-3 py-2">${getLabelForMonth(1+s2Mo+i)}</td><td class="px-3 py-2">Loan PMT</td><td class="px-3 py-2 text-right font-bold">${fmtNum(pmt)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - pmt)}</td></tr>`;
+                curBal -= pmt;
+            }
         } else {
-            pmt = lBal * (mRate * Math.pow(1+mRate, balMo))/(Math.pow(1+mRate, balMo)-1);
+            // Updated 50/50 plan logic: split initial DP over dpMo months
+            const s1Total = total * (def.dp / 100);
+            const s1 = s1Total - book;
+            updateDisplay('summarySpecialStage1Amount', s1 > 0 ? Math.round(s1) : 0);
+
+            // dpMo months to split initial 50% minus booking
+            const dpMonths = dpMo > 0 ? dpMo : 1;
+            const dpMonthly = s1 / dpMonths;
+
+            document.getElementById('rowSpecialStage2').classList.add('hidden');
+            document.getElementById('rowSpecialStage1').classList.remove('hidden');
+            document.getElementById('rowStandardBalance').classList.add('hidden');
+
+            // Render dpMonths installments for initial DP
+            for(let i = 1; i <= dpMonths; i++) {
+                schedHtml += `<tr class="border-b">
+                    <td class="px-3 py-2">${i}</td>
+                    <td class="px-3 py-2">${getLabelForMonth(i)}</td>
+                    <td class="px-3 py-2">Initial DP Payment</td>
+                    <td class="px-3 py-2 text-right font-bold">${fmtNum(dpMonthly)}</td>
+                    <td></td><td></td>
+                    <td class="text-right font-bold">${fmtNum(curBal - dpMonthly)}</td>
+                </tr>`;
+                curBal -= dpMonthly;
+            }
+
+            // Remaining balance as loan
+            let lBal = curBal;
+            let mRate = rate/100/12;
+            let pmt;
+            if(mRate === 0) {
+                pmt = lBal / balMo;
+            } else {
+                pmt = lBal * (mRate * Math.pow(1+mRate, balMo)) / (Math.pow(1+mRate, balMo) - 1);
+            }
+            let totInt = (pmt*balMo) - lBal;
+
+            updateDisplay('summaryPrincipal', lBal);
+            updateDisplay('summaryMonthlyLoan', pmt);
+            updateDisplay('summaryTotalInterest', totInt);
+            updateDisplay('summaryTotalOutlay', total+totInt);
+            document.getElementById('summaryLoanTerms').textContent = `${Math.floor(balMo/12)} Yr @ ${rate}%`;
+            document.getElementById('summaryLoanType').textContent = "Fortune Commercial City Special Plan";
+
+            for(let i = 1; i <= balMo; i++) {
+                schedHtml += `<tr class="border-b bg-green-50">
+                    <td class="px-3 py-2">${dpMonths + i}</td>
+                    <td class="px-3 py-2">${getLabelForMonth(dpMonths + i)}</td>
+                    <td class="px-3 py-2">Loan PMT</td>
+                    <td class="px-3 py-2 text-right font-bold">${fmtNum(pmt)}</td>
+                    <td></td><td></td>
+                    <td class="text-right font-bold">${fmtNum(curBal - pmt)}</td>
+                </tr>`;
+                curBal -= pmt;
+            }
         }
-        let totInt = (pmt*balMo)-lBal;
-
-        updateDisplay('summaryPrincipal', lBal);
-        updateDisplay('summaryMonthlyLoan', pmt);
-        updateDisplay('summaryTotalInterest', totInt);
-        updateDisplay('summaryTotalOutlay', total+totInt);
-        document.getElementById('summaryLoanTerms').textContent = `${Math.floor(balMo/12)} Yr @ ${rate}%`;
-        document.getElementById('summaryLoanType').textContent = "Fortune Plan";
-
-        for(let i=1; i<=balMo; i++) {
-            schedHtml += `<tr class="border-b bg-green-50"><td class="px-3 py-2">${1+s2Mo+i}</td><td class="px-3 py-2">${getLabelForMonth(1+s2Mo+i)}</td><td class="px-3 py-2">Loan PMT</td><td class="px-3 py-2 text-right font-bold">${fmtNum(pmt)}</td><td></td><td></td><td class="text-right font-bold">${fmtNum(curBal - pmt)}</td></tr>`;
-            curBal -= pmt;
-        }
-
     } else {
         // CashDown or Mortgage
         const dpMth = balDp/dpMo;
@@ -832,7 +910,7 @@ async function prepareAndExport() {
         const planVal = planEl.value;
         let planName = "Bank Mortgage";
         if(planVal === 'CashDown') planName = "Cash Down";
-        else if(planVal === 'SpecialDeveloper') planName = "Fortune City Plan";
+        else if(planVal === 'SpecialDeveloper') planName = "Fortune Commercial City Special Plan";
         document.getElementById('printPlan').innerText = planName;
     }
 
@@ -967,11 +1045,11 @@ window.addEventListener('load', () => {
         }
     }, 100);
 });
-
 </script>
 
-</body></html>
 
+
+</body></html>
 
 
 
