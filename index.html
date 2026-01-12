@@ -905,7 +905,7 @@ async function prepareAndExport() {
     if(planEl) {
         const planVal = planEl.value;
         let planName = "Bank Mortgage";
-        if(planVal === 'CashDown') planName = "Cash Down";
+        if(planVal === 'CashDown') planName = "Developer Plan";
         else if(planVal === 'SpecialDeveloper') planName = "Fortune Commercial City Special Plan";
         document.getElementById('printPlan').innerText = planName;
     }
