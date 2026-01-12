@@ -902,15 +902,15 @@ async function prepareAndExport() {
     if(typeEl) document.getElementById('printType').innerText = typeEl.parentElement.querySelector('span').innerText.trim();
 
     const planEl = document.querySelector('input[name="paymentPlan"]:checked');
-let planName = "Bank Mortgage";
-if(planEl) {
-    if(planEl.value === 'CashDown') planName = "Developer Plan";
-    else if(planEl.value === 'SpecialDeveloper') planName = "Fortune Commercial City Special Plan";
-}
-console.log("Export Plan Name:", planName);
-document.getElementById('printPlan').innerText = planName;
-
+    let planName = "Bank Mortgage";
+    if(planEl) {
+        if(planEl.value === 'CashDown') planName = "Developer Plan";
+        else if(planEl.value === 'SpecialDeveloper') planName = "Fortune Commercial City Special Plan";
     }
+    console.log("Export Plan Name:", planName);
+    document.getElementById('printPlan').innerText = planName;
+
+    // Removed the extra closing brace here!
 
     document.getElementById('printScheduleBody').innerHTML = document.getElementById('scheduleBody').innerHTML;
 
