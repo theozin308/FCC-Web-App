@@ -834,7 +834,7 @@ function calculate() {
 
         if(plan === 'CashDown') {
             pmt = curBal/balMo;
-            document.getElementById('summaryLoanType').textContent = "Construction";
+            document.getElementById('summaryLoanType').textContent = "Developer Plan";
             document.getElementById('summaryLoanTerms').textContent = `${balMo} Mo @ 0%`;
             updateDisplay('summaryMonthlyLoan', pmt);
             updateDisplay('summaryTotalInterest', 0);
